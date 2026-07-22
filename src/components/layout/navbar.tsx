@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -36,10 +37,8 @@ export function Navbar() {
       )}
     >
       <Container className="flex h-18 items-center justify-between py-3.5">
-        <Link href="#" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[linear-gradient(135deg,#169b62,#22c55e)] text-sm font-bold text-white">
-            Ц
-          </span>
+        <Link href="#" className="flex items-center gap-2.5">
+          <Logo size={36} />
           <span className="text-base font-bold tracking-tight text-text">
             Цахим дэвтэр
           </span>

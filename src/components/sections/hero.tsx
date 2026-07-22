@@ -27,7 +27,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Eyebrow>Жижиг бизнесийн ухаалаг туслах</Eyebrow>
+            <Eyebrow>Бизнесийн ухаалаг туслах</Eyebrow>
           </motion.div>
 
           <motion.h1
@@ -50,8 +50,7 @@ export function Hero() {
             className="max-w-lg text-balance text-lg leading-relaxed text-text-secondary"
           >
             Цахим дэвтэр нь борлуулалт, бараа материал, орлого зарлагаа нэг
-            дор удирдах боломжийг олгодог энгийн, найдвартай апп. Тоо
-            бүртгэлээ гараар хөтлөхөө боль.
+            дор удирдах боломжийг олгодог энгийн, найдвартай гар утасны аппликейшн юм. 
           </motion.p>
 
           <motion.div

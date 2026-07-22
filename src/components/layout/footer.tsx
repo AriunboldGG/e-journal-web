@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Globe, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { Logo } from "@/components/ui/logo";
 import { SITE } from "@/lib/constants";
 
 const columns = [
@@ -37,10 +38,8 @@ export function Footer() {
     <footer className="border-t border-border bg-surface">
       <Container className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 lg:grid-cols-5">
         <div className="flex flex-col gap-4 lg:col-span-2">
-          <Link href="#" className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[linear-gradient(135deg,#169b62,#22c55e)] text-sm font-bold text-white">
-              Ц
-            </span>
+          <Link href="#" className="flex items-center gap-2.5">
+            <Logo size={36} />
             <span className="text-base font-bold tracking-tight text-text">
               Цахим дэвтэр
             </span>
