@@ -92,9 +92,9 @@ export function Footer() {
             хамгаалагдсан.
           </p>
           <div className="flex items-center gap-6 text-xs text-text-secondary">
-            <a href="#" className="hover:text-primary">
+            <Link href="/privacy" className="hover:text-primary">
               Нууцлалын бодлого
-            </a>
+            </Link>
             <a href="#" className="hover:text-primary">
               Үйлчилгээний нөхцөл
             </a>
