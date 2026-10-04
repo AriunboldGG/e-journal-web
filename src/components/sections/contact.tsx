@@ -18,7 +18,7 @@ export function Contact() {
       <Container className="flex flex-col gap-16">
         <SectionHeading
           eyebrow="Холбоо барих"
-          title="Бидэнтэй холбогдоорой"
+          title="Холбоо барих мэдээлэл"
           description="Асуулт, санал хүсэлт байвал бидэнд бичээрэй, тун удахгүй хариу өгөх болно."
         />
 

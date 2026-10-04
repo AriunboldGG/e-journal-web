@@ -53,8 +53,8 @@ export function AppShowcase() {
       <Container className="flex flex-col gap-20 sm:gap-28">
         <SectionHeading
           eyebrow="Мобайл апп"
-          title="Таны гар утсан дахь бизнесийн товчоо"
-          description="Цахим дэвтэр таны гар утсан дээр байнга байж, бизнесээ хаанаас ч удирдах боломжийг олгоно."
+          title="Таны гар утсан дахь бизнесийн цахим дэвтэр"
+          description="Цахим дэвтэр таны гар утсан дээр хамт байж, бизнесээ хаанаас ч удирдах боломжийг олгоно."
         />
 
         <div className="flex flex-col gap-24 sm:gap-32">

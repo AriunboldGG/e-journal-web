@@ -25,11 +25,11 @@ import { Card, IconBadge } from "@/components/ui/card";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 const features = [
-  { icon: ShoppingCart, title: "Борлуулалт (POS)", text: "Хурдан бөгөөд энгийн худалдааны цэг." },
+  { icon: ShoppingCart, title: "Борлуулалт", text: "Хурдан бөгөөд хялбараар борлуулалтаа бүртгэнэ." },
   { icon: Boxes, title: "Бараа материал", text: "Бүх барааны нөөцийг нэг дороос хянана." },
   { icon: Warehouse, title: "Нөөцийн удирдлага", text: "Хэдэн ширхэг үлдсэнийг үргэлж мэднэ." },
   { icon: Building2, title: "Салбар удирдлага", text: "Олон дэлгүүрээ нэг апп-аас хянана." },
-  { icon: Users, title: "Харилцагчийн өр", text: "Зээлдэгсдийн бүртгэл, төлбөрийн хугацаа." },
+  { icon: Users, title: "Харилцагчийн өр", text: "Зээлдэгсдийн бүртгэл, төлбөрийн хугацааг хянана." },
   { icon: Handshake, title: "Нийлүүлэгчийн төлбөр", text: "Нийлүүлэгч рүү өгөх төлбөрөө хянана." },
   { icon: TrendingUp, title: "Орлого", text: "Өдөр тутмын орлогоо автоматаар бүртгэнэ." },
   { icon: Receipt, title: "Зарлага", text: "Бизнесийн зардлаа ангилж бүртгэнэ." },
