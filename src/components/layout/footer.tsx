@@ -27,7 +27,7 @@ const columns = [
     title: "Тусламж",
     links: [
       { label: "Түгээмэл асуулт", href: "#faq" },
-      { label: "Апп татах", href: "#download" },
+      { label: "аппликейшнтатах", href: "#download" },
       { label: "Хэнд зориулагдсан", href: "#who" },
     ],
   },

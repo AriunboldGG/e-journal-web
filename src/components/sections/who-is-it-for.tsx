@@ -16,9 +16,9 @@ const audiences = [
   { icon: Shirt, title: "Хувцасны дэлгүүр" },
   { icon: Footprints, title: "Гутлын дэлгүүр" },
   { icon: Sparkles, title: "Гоо сайхны бүтээгдэхүүн" },
-  { icon: Store, title: "Мини маркет" },
+  { icon: Store, title: "Мини дэлгүүр" },
   { icon: Cpu, title: "Электроник бараа" },
-  { icon: Tent, title: "Захын худалдаачид" },
+  { icon: Tent, title: "Борлуулагчид" },
   { icon: Gem, title: "Гоёл чимэглэл" },
   { icon: Package, title: "Бөөний худалдаа" },
 ];
@@ -30,7 +30,7 @@ export function WhoIsItFor() {
         <SectionHeading
           eyebrow="Хэнд зориулагдсан"
           title="Ямар бизнест тохирох вэ?"
-          description="Нарантуул, Хархорин, Ням зах болон хот даяарх жижиг дэлгүүрүүдэд тохируулан бүтээсэн."
+          description="Жижиг дунд бизнес эрхлэгчид"
         />
 
         <RevealGroup className="grid grid-cols-2 gap-5 sm:grid-cols-4">

@@ -32,7 +32,7 @@ export function Reports() {
             align="left"
             eyebrow="Тайлан ба аналитик"
             title="Бизнесээ тоо баримтаар удирд"
-            description="Цахим дэвтэр таны бизнесийн бүх мэдээллийг ойлгомжтой, гоё харагдацтай тайлан болгож харуулна."
+            description="Цахим дэвтэр таны бизнесийн бүх мэдээллийг ойлгомжтой, тодорхой тайлан болгож харуулна."
           />
 
           <RevealGroup className="grid grid-cols-1 gap-3 sm:grid-cols-2">

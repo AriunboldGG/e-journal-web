@@ -19,14 +19,13 @@ export function Download() {
         <Reveal>
           <div className="mx-auto flex max-w-4xl flex-col items-center gap-10 rounded-[2.5rem] border border-border bg-[linear-gradient(160deg,#ffffff,rgba(22,155,98,0.04))] px-6 py-16 text-center shadow-[0_30px_70px_-30px_rgba(16,24,40,0.25)] sm:px-16">
             <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-              Одоо татаж эхлээрэй
+              Аппликейшн татах
             </span>
             <h2 className="text-balance text-3xl font-bold tracking-tight text-text sm:text-4xl md:text-5xl">
               Бизнесээ өнөөдрөөс цахимжуулаарай
             </h2>
             <p className="max-w-xl text-balance text-lg leading-relaxed text-text-secondary">
-              Цахим дэвтэр аппыг чиний утсанд суулгаад, хэдхэн минутын дараа
-              борлуулалтаа удирдаж эхлээрэй.
+              Цахим дэвтэр аппликейшн татах холбоосууд
             </p>
 
             <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-center">

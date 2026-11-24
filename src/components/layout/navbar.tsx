@@ -62,7 +62,7 @@ export function Navbar() {
             Холбоо барих
           </Button>
           <Button href="#download" variant="primary" size="md">
-            Апп татах
+            аппликейшнтатах
           </Button>
         </div>
 
@@ -89,7 +89,7 @@ export function Navbar() {
               </a>
             ))}
             <Button href="#download" variant="primary" size="md" className="mt-2 w-full">
-              Апп татах
+              аппликейшнтатах
             </Button>
           </nav>
         </div>

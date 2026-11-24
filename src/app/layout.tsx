@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   keywords: [
     "Цахим дэвтэр",
     "борлуулалтын систем",
-    "POS апп",
+    // "POS апп",
     "бараа материалын удирдлага",
-    "жижиг бизнес апп Монгол",
+    "жижиг бизнес аппликейшн Монгол",
     "Tsakhim Devter",
   ],
   authors: [{ name: SITE.companyNameMn }],
