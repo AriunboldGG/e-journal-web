@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
-const pillars = [
+export const pillars = [
   {
     title: "Эрхэм зорилго",
     text: "Монголын жижиг, дунд бизнес эрхлэгчид өдөр тутмын худалдаагаа хялбар, ил тод, цахим хэлбэрээр удирдах боломжийг олгох.",

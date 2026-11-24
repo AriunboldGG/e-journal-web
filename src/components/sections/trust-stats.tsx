@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { Counter } from "@/components/ui/counter";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
-const stats = [
+export const stats = [
   { value: 500, suffix: "+", label: "Бизнес эрхлэгчид" },
   { value: 15000, suffix: "+", label: "Бараа бүтээгдэхүүн" },
   { value: 99.9, suffix: "%", label: "Тасралтгүй ажиллагаа", decimals: true },

@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
-const steps = [
+export const steps = [
   { title: "Бүртгүүлэх", text: "Хэдхэн минутын дотор апп-д бүртгэл үүсгэнэ." },
   { title: "Дэлгүүр үүсгэх", text: "Өөрийн дэлгүүр эсвэл салбараа апп-д нэмнэ." },
   { title: "Бараа нэмэх", text: "Борлуулах бараагаа жагсаалтад оруулна." },

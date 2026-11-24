@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
-const oldWay = [
+export const oldWay = [
   "Гараар бичдэг, алдаа их гардаг",
   "Дэвтэр дуусах, гээгдэх эрсдэлтэй",
   "Тооцоолол удаан, төвөгтэй",
@@ -10,7 +10,7 @@ const oldWay = [
   "Барааны нөөцийг мэддэггүй",
 ];
 
-const newWay = [
+export const newWay = [
   "Автоматаар тооцоолж, алдаагүй тулгалт хийнэ",
   "Мэдээлэл Үүлэн технологид хадгалах (Cloud Storage) аюулгүй хадгалагдана",
   "Тайлан хормын дотор бэлэн болно",

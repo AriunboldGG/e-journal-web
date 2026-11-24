@@ -24,7 +24,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
-const features = [
+export const features = [
   { icon: ShoppingCart, title: "Борлуулалт бүртгэл", text: "Хурдан бөгөөд энгийн хэдэн товшилтоор борлуулалтаа бүртгэх боломжтой." },
   { icon: Boxes, title: "Бараа материал", text: "Бүх барааны нөөцийг нэг дороос хянана." },
   { icon: Warehouse, title: "Нөөцийн удирдлага", text: "Хэдэн ширхэг үлдсэнийг үргэлж мэднэ." },

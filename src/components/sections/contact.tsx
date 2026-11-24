@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { SITE } from "@/lib/constants";
 
-const info = [
+export const info = [
   { icon: Mail, label: "И-мэйл", value: SITE.email },
   { icon: Phone, label: "Утас", value: SITE.phone },
   { icon: MapPin, label: "Хаяг", value: SITE.address },

@@ -2,7 +2,7 @@ import { Apple, PlayCircle, Smartphone, QrCode } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 
-const stores = [
+export const stores = [
   {
     name: "App Store",
     sub: "Татаж авах",

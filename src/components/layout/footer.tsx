@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/ui/logo";
 import { SITE } from "@/lib/constants";
 
-const columns = [
+export const columns = [
   {
     title: "Компани",
     links: [

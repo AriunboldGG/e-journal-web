@@ -8,5 +8,5 @@ export const SITE = {
   facebook: "https://facebook.com/tsakhimdevter",
   address: "Улаанбаатар хот, Сүхбаатар дүүрэг",
   hours: "Даваа–Баасан, 09:00–18:00",
-  tagline: "Таны бизнесийн хамгийн ухаалаг дэвтэр",
+  tagline: "Таны бизнесийн хувийн санхүүч",
 };

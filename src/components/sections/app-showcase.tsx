@@ -4,7 +4,7 @@ import { AppShot } from "@/components/ui/app-shot";
 import { Reveal } from "@/components/ui/reveal";
 import { LayoutDashboard, Boxes, BarChart3, ShoppingCart } from "lucide-react";
 
-const showcases = [
+export const showcases = [
   {
     icon: LayoutDashboard,
     tag: "Хяналтын самбар",

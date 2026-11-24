@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
-const reasons = [
+export const reasons = [
   { title: "Ашиглахад хялбар", text: "Толгой эргэм тоо томшгүй олон үйлдэлгүй" },
   { title: "Клауд суурьтай", text: "Мэдээлэл үүлэн технологид хадгалагдана, гацахгүй, тасалдаж алга болохгүй" },
   { title: "Найдвартай хамгаалалт", text: "Таны бизнесийн өгөгдөл шифрлэгдсэн, аюулгүй орчинд хадгалагдана." },

@@ -293,6 +293,45 @@ html {
   transform: translateY(-0.3em);
 }
 
+/* Ruled paper at 28px, for the compact book pages */
+.ruled-28 {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 27px,
+    var(--color-rule) 27px,
+    var(--color-rule) 28px
+  );
+}
+
+/* Pen underline: drawn in when the pen touches a heading, and it stays */
+.ink {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q9 1 18 5 T36 4.5 T54 5 T72 4.5 T100 4' fill='none' stroke='%23c4352b' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 8px;
+  padding-bottom: 5px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ink.inked,
+.ink:hover {
+  background-size: 100% 8px;
+}
+
+/* Book mode: the horizontal notebook replaces the long scroll on large screens */
+html.book-mode .vertical-only {
+  display: none !important;
+}
+html:not(.book-mode) .book-only {
+  display: none;
+}
+.pen-active,
+.pen-active * {
+  cursor: none !important;
+}
+
 /* Divider tab sticking out of the right edge of a page */
 .tab-edge {
   writing-mode: vertical-rl;

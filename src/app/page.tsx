@@ -15,11 +15,14 @@ import { Roadmap } from "@/components/sections/roadmap";
 import { FAQ } from "@/components/sections/faq";
 import { Download } from "@/components/sections/download";
 import { Contact } from "@/components/sections/contact";
+import { Book } from "@/components/book/book";
 
 export default function Home() {
   return (
     <>
       <Navbar />
+      <Book />
+      <div className="vertical-only">
       <main>
         <Hero />
         <TrustStats />
@@ -38,6 +41,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      </div>
     </>
   );
 }

@@ -30,8 +30,8 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        "border-b-2 border-text/85 bg-surface",
-        scrolled && "shadow-[0_10px_18px_-14px_rgba(8,61,38,0.55)]"
+        "border-b border-border bg-surface/95 backdrop-blur-md",
+        scrolled && "shadow-[0_8px_18px_-14px_rgba(8,61,38,0.4)]"
       )}
     >
       <div className="container-app flex h-[4.25rem] items-center justify-between gap-6" style={{ maxWidth: "1360px" }}>
@@ -50,7 +50,7 @@ export function Navbar() {
               className="group relative whitespace-nowrap text-sm font-semibold text-text-secondary transition-colors hover:text-text"
             >
               {l.label}
-              <span className="absolute -bottom-1 left-0 h-[3px] w-0 border-y border-pen transition-all duration-300 group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full bg-cloth transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
@@ -66,7 +66,7 @@ export function Navbar() {
 
         <button
           aria-label="Цэс нээх"
-          className="flex h-10 w-10 items-center justify-center rounded-md border-2 border-text xl:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border border-border xl:hidden"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -74,7 +74,7 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t-2 border-text/85 bg-surface px-6 py-4 xl:hidden">
+        <div className="border-t border-border bg-surface px-6 py-4 xl:hidden">
           <nav className="flex flex-col gap-4">
             {links.map((l) => (
               <a

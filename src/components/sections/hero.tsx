@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { AppShot } from "@/components/ui/app-shot";
 
-const entries = [
+export const entries = [
   { label: "Борлуулалт", text: "Хэдхэн товшилтоор борлуулалт хийж, борлуулалтаа цахимаар бүртгэх." },
   { label: "Бараа материалын удирдлага", text: "Нөөцийн үлдэгдлийг бодит цагт хянаж, бараа дуусахаас урьдчилан сэргийлэх." },
   { label: "Санххууүгийн тайлан & Аналитик", text: "Орлого, зарлага, цэвэр ашиг болон хамгийн их зарагдсан барааны дэлгэрэнгүй тайланг харах." },

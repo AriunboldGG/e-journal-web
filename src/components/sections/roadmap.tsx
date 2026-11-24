@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
-const roadmap = [
+export const roadmap = [
   { title: "Хүргэлтийн тооцоо", text: "Хүргэлтийн захиалга, тооцооллыг апп-д нэгтгэнэ." },
   { title: "Урамшууллын модуль", text: "Хэрэглэгчдэд зориулсан урамшуулал, хөнгөлөлтийн систем." },
   { title: "Офлайн горим", text: "Интернэтгүй үед ч борлуулалт хийх боломж." },

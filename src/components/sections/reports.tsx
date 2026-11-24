@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/reveal";
 
-const reportTypes = [
+export const reportTypes = [
   "Борлуулалтын тайлан",
   "Ашгийн тайлан",
   "Зарлагын тайлан",

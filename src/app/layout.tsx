@@ -132,7 +132,15 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="mn" className={`${geologica.variable} ${caveat.variable} ${jetbrains.variable} antialiased`}>
+    <html lang="mn" suppressHydrationWarning className={`${geologica.variable} ${caveat.variable} ${jetbrains.variable} antialiased`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var w=innerWidth,h=innerHeight;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&Math.min(1,(h-158)/760,w*.96/1240)>=.74)document.documentElement.classList.add('book-mode')}catch(e){}",
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-background font-sans text-text">
         {children}
         <script

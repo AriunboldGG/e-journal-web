@@ -14,7 +14,7 @@ export function Logo({
       alt="Цахим дэвтэр лого"
       width={size}
       height={size}
-      className={cn("shrink-0 rounded-md border-2 border-text object-cover", className)}
+      className={cn("shrink-0 rounded-lg object-cover", className)}
       priority
     />
   );
