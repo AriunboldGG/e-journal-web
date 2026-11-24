@@ -13,9 +13,7 @@ import {
 import { BackCover, FrontCover, PAGES, PAGE_H, PAGE_W, Shell } from "./pages";
 
 const NAV_H = 68;
-const LEAVES = 13; // 0 = front cover, 1..11 = paper leaves, 12 = back cover
 const SPREADS = 12;
-const PHASE_VH = 0.85; // scroll distance per page turn, in viewport heights
 const SPREAD_NAMES = [
   "Эхлэл",
   "Бидний тухай",
@@ -45,42 +43,63 @@ const ANCHORS: Record<string, number | "end" | "start"> = {
   "#download": "end",
 };
 
-function bookScale() {
-  const h = window.innerHeight;
-  const w = window.innerWidth;
-  return Math.min(1, (h - NAV_H - 90) / PAGE_H, (w * 0.96) / (PAGE_W * 2));
+/**
+ * Two layouts, one notebook.
+ * spread: an open two-page book, scaled to the window (laptops and up).
+ * single: one page at a time, reflowed to the screen (phones, tablets, short windows).
+ */
+type Layout =
+  | { mode: "spread"; scale: number }
+  | { mode: "single"; w: number; h: number };
+
+function geometry(l: Layout) {
+  if (l.mode === "spread") {
+    // leaf 0 = front cover, 1..11 paper leaves, 12 = back cover
+    return { leaves: 13, phases: 13, phaseVh: 0.85, pw: PAGE_W * l.scale, ph: PAGE_H * l.scale };
+  }
+  // cover, pages 1..24, back cover: each page swings off to the left in turn
+  return { leaves: 26, phases: 25, phaseVh: 0.62, pw: l.w, ph: l.h };
 }
 
-function wantsBook() {
-  if (typeof window === "undefined") return false;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  return bookScale() >= 0.74;
+function computeLayout(): Layout | null {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
+  const h = window.innerHeight;
+  const w = window.innerWidth;
+  const scale = Math.min(1, (h - NAV_H - 90) / PAGE_H, (w * 0.96) / (PAGE_W * 2));
+  if (scale >= 0.74) return { mode: "spread", scale };
+  return {
+    mode: "single",
+    w: Math.round(Math.min(w - 20, 540)),
+    h: Math.max(380, Math.round(h - NAV_H - 96)),
+  };
 }
 
 export function Book() {
-  const [scale, setScale] = useState<number | null>(null);
+  const [layout, setLayout] = useState<Layout | null>(null);
 
   useEffect(() => {
     const apply = () => {
-      const on = wantsBook();
-      document.documentElement.classList.toggle("book-mode", on);
-      setScale(on ? bookScale() : null);
+      const next = computeLayout();
+      document.documentElement.classList.toggle("book-mode", next !== null);
+      setLayout(next);
     };
     apply();
     window.addEventListener("resize", apply);
     return () => window.removeEventListener("resize", apply);
   }, []);
 
-  if (scale === null) return null;
-  return <BookInner scale={scale} />;
+  if (layout === null) return null;
+  return <BookInner layout={layout} />;
 }
 
-function BookInner({ scale }: { scale: number }) {
+function BookInner({ layout }: { layout: Layout }) {
   const outerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [vh, setVh] = useState(() => window.innerHeight);
   const [active, setActive] = useState(-1); // -1 closed front, 0..11 spreads, 12 closed back
   const [visited, setVisited] = useState<Set<number>>(() => new Set());
+  const g = geometry(layout);
+  const single = layout.mode === "single";
 
   useEffect(() => {
     const onResize = () => setVh(window.innerHeight);
@@ -93,14 +112,21 @@ function BookInner({ scale }: { scale: number }) {
     offset: [`start ${NAV_H}px`, "end end"],
   });
 
+  // The closed book is centred: shifted half a page while only one cover shows.
   const x = useTransform(
     p,
-    [0, 0.18 / LEAVES, 0.82 / LEAVES, 12.18 / LEAVES, 12.82 / LEAVES, 1],
-    ["-25%", "-25%", "0%", "0%", "25%", "25%"]
+    single ? [0, 1] : [0, 0.18 / g.phases, 0.82 / g.phases, 12.18 / g.phases, 12.82 / g.phases, 1],
+    single ? ["0%", "0%"] : ["-25%", "-25%", "0%", "0%", "25%", "25%"]
   );
 
   useMotionValueEvent(p, "change", (v) => {
-    const s = Math.max(-1, Math.min(SPREADS, Math.round(v * LEAVES) - 1));
+    let s: number;
+    if (single) {
+      const n = Math.round(v * g.phases); // page on show
+      s = n <= 0 ? -1 : n >= 25 ? SPREADS : Math.floor((n - 1) / 2);
+    } else {
+      s = Math.max(-1, Math.min(SPREADS, Math.round(v * g.phases) - 1));
+    }
     setActive((prev) => (prev === s ? prev : s));
   });
 
@@ -118,7 +144,7 @@ function BookInner({ scale }: { scale: number }) {
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [active]);
 
-  const outerH = vh - NAV_H + LEAVES * PHASE_VH * vh;
+  const outerH = vh - NAV_H + g.phases * g.phaseVh * vh;
 
   const scrollToProgress = useCallback((prog: number) => {
     const outer = outerRef.current;
@@ -132,9 +158,9 @@ function BookInner({ scale }: { scale: number }) {
     (s: number | "end" | "start") => {
       if (s === "start") return window.scrollTo({ top: 0, behavior: "smooth" });
       if (s === "end") return scrollToProgress(1);
-      scrollToProgress((s + 1) / LEAVES);
+      scrollToProgress(single ? (2 * s + 1) / g.phases : (s + 1) / g.phases);
     },
-    [scrollToProgress]
+    [scrollToProgress, single, g.phases]
   );
 
   // In-page anchors (navbar, buttons, footer links) turn to the matching page.
@@ -157,15 +183,13 @@ function BookInner({ scale }: { scale: number }) {
     const stage = stageRef.current;
     if (!stage) return;
     const over = (e: MouseEvent) => {
-      const el = (e.target as HTMLElement).closest(".ink");
-      el?.classList.add("inked");
+      (e.target as HTMLElement).closest(".ink")?.classList.add("inked");
     };
     stage.addEventListener("mouseover", over);
     return () => stage.removeEventListener("mouseover", over);
   }, []);
 
-  const bookW = PAGE_W * 2 * scale;
-  const bookH = PAGE_H * scale;
+  const bookW = single ? g.pw : g.pw * 2;
 
   return (
     <div
@@ -177,19 +201,19 @@ function BookInner({ scale }: { scale: number }) {
       <div
         ref={stageRef}
         className="book-stage sticky flex items-center justify-center overflow-hidden"
-        style={{ top: NAV_H, height: vh - NAV_H, paddingBottom: 46 }}
+        style={{ top: NAV_H, height: vh - NAV_H, paddingBottom: single ? 52 : 46 }}
       >
-        <motion.div className="relative" style={{ width: bookW, height: bookH, x }}>
+        <motion.div className="relative" style={{ width: bookW, height: g.ph, x }}>
           <span
             aria-hidden="true"
             className="absolute inset-x-6 -bottom-3 h-6 rounded-[50%] bg-cloth-deep/30 blur-xl"
           />
-          {Array.from({ length: LEAVES }, (_, k) => (
-            <Leaf key={k} k={k} p={p} scale={scale} />
+          {Array.from({ length: g.leaves }, (_, k) => (
+            <Leaf key={k} k={k} p={p} layout={layout} />
           ))}
         </motion.div>
 
-        <Tracker p={p} active={active} visited={visited} onGo={goToSpread} />
+        <Tracker p={p} active={active} visited={visited} onGo={goToSpread} single={single} phases={g.phases} />
         <PenCursor stageRef={stageRef} />
       </div>
     </div>
@@ -199,30 +223,40 @@ function BookInner({ scale }: { scale: number }) {
 /* ---------- a leaf: two faces that turn about the spine ---------- */
 
 function Face({
-  scale,
+  layout,
   flipped,
+  flat,
+  hidden,
   shade,
-  children,
   shadeDir,
+  children,
 }: {
-  scale: number;
+  layout: Layout;
   flipped?: boolean;
+  flat?: boolean;
+  hidden?: boolean;
   shade: MotionValue<number>;
   shadeDir: "l" | "r";
   children: React.ReactNode;
 }) {
+  const g = geometry(layout);
+  const spread = layout.mode === "spread";
+  const scale = spread ? layout.scale : 1;
+  const cw = spread ? PAGE_W : g.pw;
+  const ch = spread ? PAGE_H : g.ph;
   return (
     <div
       className="absolute inset-0 overflow-hidden"
       style={{
-        backfaceVisibility: "hidden",
-        WebkitBackfaceVisibility: "hidden",
-        transform: flipped ? "rotateY(180deg)" : undefined,
-        width: PAGE_W * scale,
-        height: PAGE_H * scale,
+        backfaceVisibility: flat ? undefined : "hidden",
+        WebkitBackfaceVisibility: flat ? undefined : "hidden",
+        transform: flipped && !flat ? "rotateY(180deg)" : undefined,
+        width: g.pw,
+        height: g.ph,
+        display: hidden ? "none" : undefined,
       }}
     >
-      <div style={{ width: PAGE_W, height: PAGE_H, transform: `scale(${scale})`, transformOrigin: "0 0" }}>
+      <div style={{ width: cw, height: ch, transform: `scale(${scale})`, transformOrigin: "0 0" }}>
         {children}
       </div>
       <motion.span
@@ -240,55 +274,119 @@ function Face({
   );
 }
 
-function Leaf({ k, p, scale }: { k: number; p: MotionValue<number>; scale: number }) {
-  const rot = useTransform(p, [(k + 0.18) / LEAVES, (k + 0.82) / LEAVES], [0, -180], { clamp: true });
-  const z = useTransform(rot, (r) => (r > -0.01 ? LEAVES - k : r < -179.99 ? k + 1 : 100));
+const spreadOfPage = (n: number) => (n % 2 === 1 ? (n - 1) / 2 : n / 2 - 1);
+
+function Leaf({ k, p, layout }: { k: number; p: MotionValue<number>; layout: Layout }) {
+  const single = layout.mode === "single";
+  const g = geometry(layout);
+  const lastLeaf = g.leaves - 1;
+  const fixed = single && k === lastLeaf; // on a phone the back cover simply stays put
+  const rot = useTransform(p, [(k + 0.18) / g.phases, (k + 0.82) / g.phases], [0, -180], {
+    clamp: true,
+  });
+  const z = useTransform(rot, (r) =>
+    r > -0.01 ? g.leaves - k : r < -179.99 ? (single ? 0 : k + 1) : 100
+  );
   const frontShade = useTransform(rot, [0, -90], [0, 0.45]);
   const backShade = useTransform(rot, [-90, -180], [0.45, 0]);
 
-  const frontPage = k === 0 ? null : PAGES[2 * k - 1];
-  const backPage = k === LEAVES - 1 ? null : PAGES[2 * k];
+  // Text is only crisp on a flat layer. A page at rest (on the right or turned over to the
+  // left) is drawn with no 3D transform at all; only a page that is mid-turn gets perspective.
+  const stateOf = (r: number): "r" | "t" | "l" => (r > -0.05 ? "r" : r < -179.95 ? "l" : "t");
+  const [st, setSt] = useState<"r" | "t" | "l">(() => stateOf(rot.get()));
+  useMotionValueEvent(rot, "change", (r) => {
+    const next = stateOf(r);
+    setSt((prev) => (prev === next ? prev : next));
+  });
+  const turning = st === "t" && !fixed;
 
-  // Page numbers (1-based): leaf k front = 2k, back = 2k+1
-  const frontN = 2 * k;
-  const backN = 2 * k + 1;
-  const spreadOf = (n: number) => (n % 2 === 1 ? (n - 1) / 2 : n / 2 - 1);
+  let front: React.ReactNode;
+  let back: React.ReactNode;
 
+  if (single) {
+    // page n = leaf n; page 0 is the front cover, 25 the back cover
+    front =
+      k === 0 ? (
+        <FrontCover />
+      ) : k === lastLeaf ? (
+        <BackCover />
+      ) : (
+        <div className="h-full w-full" data-spread={spreadOfPage(k)}>
+          <Shell side="R" n={k} compact>
+            {PAGES[k - 1].node}
+          </Shell>
+        </div>
+      );
+    back = <div className="h-full w-full bg-surface" />;
+  } else {
+    const frontN = 2 * k;
+    const backN = 2 * k + 1;
+    front =
+      k === 0 ? (
+        <FrontCover />
+      ) : (
+        <div className="h-full w-full" data-spread={spreadOfPage(frontN)}>
+          <Shell side="R" n={frontN}>
+            {PAGES[frontN - 1].node}
+          </Shell>
+        </div>
+      );
+    back =
+      k === lastLeaf ? (
+        <BackCover />
+      ) : (
+        <div className="h-full w-full" data-spread={spreadOfPage(backN)}>
+          <Shell side="L" n={backN}>
+            {PAGES[backN - 1].node}
+          </Shell>
+        </div>
+      );
+  }
+
+  const flatLeft = st === "l" && !fixed;
   return (
     <motion.div
       className="absolute top-0"
       style={{
-        left: "50%",
-        width: PAGE_W * scale,
-        height: PAGE_H * scale,
-        transformOrigin: "left center",
-        transformStyle: "preserve-3d",
-        transformPerspective: 3000,
-        rotateY: rot,
-        zIndex: z,
+        left: single ? 0 : "50%",
+        width: g.pw,
+        height: g.ph,
+        ...(turning
+          ? {
+              transformOrigin: "left center",
+              transformStyle: "preserve-3d" as const,
+              transformPerspective: 3000,
+              rotateY: rot,
+              zIndex: 100,
+            }
+          : {
+              // resting: no rotation, a page turned over simply sits on the left half
+              x: flatLeft && !single ? -g.pw : 0,
+              zIndex: st === "l" && !fixed ? (single ? 0 : k + 1) : g.leaves - k,
+              opacity: flatLeft && single ? 0 : 1,
+              pointerEvents: flatLeft && single ? ("none" as const) : undefined,
+            }),
       }}
     >
-      <Face scale={scale} shade={frontShade} shadeDir="l">
-        {k === 0 ? (
-          <FrontCover />
-        ) : (
-          <div data-spread={spreadOf(frontN)}>
-            <Shell side="R" n={frontN}>
-              {frontPage!.node}
-            </Shell>
-          </div>
-        )}
+      {/* both faces stay mounted so a page keeps its ink and scroll position */}
+      <Face
+        layout={layout}
+        flat={!turning}
+        hidden={!turning && flatLeft}
+        shade={frontShade}
+        shadeDir="l"
+      >
+        {front}
       </Face>
-      <Face scale={scale} flipped shade={backShade} shadeDir="r">
-        {k === LEAVES - 1 ? (
-          <BackCover />
-        ) : (
-          <div data-spread={spreadOf(backN)}>
-            <Shell side="L" n={backN}>
-              {backPage!.node}
-            </Shell>
-          </div>
-        )}
+      <Face
+        layout={layout}
+        flipped={turning}
+        flat={!turning}
+        hidden={!turning && !flatLeft}
+        shade={backShade}
+        shadeDir="r"
+      >
+        {back}
       </Face>
     </motion.div>
   );
@@ -368,18 +466,27 @@ function Tracker({
   active,
   visited,
   onGo,
+  single,
+  phases,
 }: {
   p: MotionValue<number>;
   active: number;
   visited: Set<number>;
   onGo: (s: number) => void;
+  single: boolean;
+  phases: number;
 }) {
-  const left = useTransform(p, [1 / LEAVES, 12 / LEAVES], ["0%", "100%"], { clamp: true });
+  const left = useTransform(
+    p,
+    single ? [1 / phases, 24 / phases] : [1 / phases, 12 / phases],
+    ["0%", "100%"],
+    { clamp: true }
+  );
   const label =
     active < 0 ? "Хавтас" : active >= SPREADS ? "Төгсгөл" : SPREAD_NAMES[active];
 
   return (
-    <div className="absolute bottom-2 left-1/2 z-40 w-[min(560px,70vw)] -translate-x-1/2 select-none">
+    <div className="absolute bottom-2 left-1/2 z-40 w-[min(560px,84vw)] -translate-x-1/2 select-none">
       <p className="hand mb-1 text-center text-[22px] leading-none text-cloth">{label}</p>
       <div className="relative h-8">
         <svg

@@ -87,7 +87,7 @@ export function Navbar() {
               </a>
             ))}
             <Button href="#download" variant="primary" size="md" className="mt-2 w-full">
-              аппликейшн татах
+              Аппликейшн татах
             </Button>
           </nav>
         </div>

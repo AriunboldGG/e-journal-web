@@ -137,7 +137,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var w=innerWidth,h=innerHeight;if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&Math.min(1,(h-158)/760,w*.96/1240)>=.74)document.documentElement.classList.add('book-mode')}catch(e){}",
+              "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('book-mode')}catch(e){}",
           }}
         />
       </head>

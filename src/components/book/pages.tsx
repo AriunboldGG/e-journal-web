@@ -26,24 +26,30 @@ export const PAGE_H = 760;
 
 /* ---------- page furniture ---------- */
 
+/** Font size that holds its value on the full page and eases down on a narrow one. */
+const fs = (px: number) =>
+  `clamp(${Math.round(px * 0.62)}px, ${(px / 6.2).toFixed(2)}cqw, ${px}px)`;
+
 function Shell({
   side,
   n,
   children,
+  compact,
 }: {
   side: "L" | "R";
   n: number;
   children: React.ReactNode;
+  compact?: boolean;
 }) {
   return (
     <div
-      className="relative flex flex-col overflow-hidden bg-surface text-text shadow-[inset_0_0_0_1px_rgba(15,33,24,0.12)]"
-      style={{ width: PAGE_W, height: PAGE_H, padding: "56px 52px 52px" }}
+      className="relative h-full w-full overflow-hidden bg-surface text-text shadow-[inset_0_0_0_1px_rgba(15,33,24,0.12)]"
+      style={{ containerType: "inline-size" }}
     >
       {/* the gutter: paper curves into the spine */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 w-14"
+        className="pointer-events-none absolute inset-y-0 z-10 w-14"
         style={{
           [side === "L" ? "right" : "left"]: 0,
           background: `linear-gradient(${
@@ -51,11 +57,18 @@ function Shell({
           }, rgba(8,61,38,0.2), rgba(8,61,38,0.05) 45%, transparent)`,
         }}
       />
-      <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
+      <div
+        className={`absolute inset-0 flex flex-col ${
+          compact ? "overflow-y-auto overscroll-y-auto" : ""
+        }`}
+        style={{ padding: compact ? "30px 22px 48px" : "56px 52px 52px" }}
+      >
+        <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
+      </div>
       <span
         aria-hidden="true"
-        className={`hand absolute bottom-4 text-[20px] leading-none text-text-secondary ${
-          side === "L" ? "left-12" : "right-12"
+        className={`hand pointer-events-none absolute bottom-3 z-10 text-[20px] leading-none text-text-secondary ${
+          side === "L" ? "left-5" : "right-5"
         }`}
       >
         {n}
@@ -81,7 +94,7 @@ function Head({
     <div className="mb-5 flex flex-col gap-3">
       <h2
         className="text-balance font-extrabold leading-[1.1] tracking-tight"
-        style={{ fontSize: size }}
+        style={{ fontSize: fs(size) }}
       >
         <Ink>{title}</Ink>
       </h2>
@@ -112,8 +125,8 @@ function Row({ title, text }: { title: string; text: string }) {
 export function FrontCover() {
   return (
     <div
-      className="cloth stitch relative flex flex-col items-center justify-center gap-8 rounded-r-md"
-      style={{ width: PAGE_W, height: PAGE_H }}
+      className="cloth stitch relative flex h-full w-full flex-col items-center justify-center gap-8 rounded-r-md"
+      style={{ containerType: "inline-size" }}
     >
       <span
         aria-hidden="true"
@@ -123,10 +136,10 @@ export function FrontCover() {
             "linear-gradient(to right, rgba(0,0,0,0.38), rgba(0,0,0,0.12) 60%, transparent)",
         }}
       />
-      <div className="relative flex w-[380px] flex-col items-center gap-5 bg-surface px-8 pb-9 pt-10 text-center text-text shadow-[0_14px_22px_-12px_rgba(0,0,0,0.6)]">
+      <div className="relative flex w-[72%] flex-col items-center gap-5 bg-surface px-6 pb-9 pt-10 text-center text-text shadow-[0_14px_22px_-12px_rgba(0,0,0,0.6)]">
         <span className="tape -top-3 left-1/2 w-24 -translate-x-1/2 -rotate-2" />
         <Logo size={84} className="rounded-2xl" />
-        <p className="text-[38px] font-extrabold leading-none tracking-tight">Цахим дэвтэр</p>
+        <p className="font-extrabold leading-none tracking-tight" style={{ fontSize: fs(38) }}>Цахим дэвтэр</p>
         <span className="block h-[7px] w-24 border-y-2 border-pen" aria-hidden="true" />
         <p className="text-balance text-[15px] leading-snug text-text-secondary">{SITE.tagline}</p>
       </div>
@@ -141,8 +154,8 @@ export function FrontCover() {
 export function BackCover() {
   return (
     <div
-      className="cloth stitch relative flex flex-col items-center justify-between rounded-l-md px-[52px] py-[56px] text-center"
-      style={{ width: PAGE_W, height: PAGE_H }}
+      className="cloth stitch relative flex h-full w-full flex-col items-center justify-between gap-6 overflow-y-auto rounded-l-md px-[8%] py-[7%] text-center"
+      style={{ containerType: "inline-size" }}
     >
       <span
         aria-hidden="true"
@@ -154,11 +167,11 @@ export function BackCover() {
       />
       <div className="relative flex flex-col items-center gap-5">
         <span className="hand -rotate-2 text-[32px] leading-none text-cloth-ink">Аппликейшн татах</span>
-        <h2 className="text-balance text-[38px] font-extrabold leading-[1.05] tracking-tight text-white">
+        <h2 className="text-balance font-extrabold leading-[1.05] tracking-tight text-white" style={{ fontSize: fs(38) }}>
           <span className="pen-underline-light">Бизнесээ өнөөдрөөс цахимжуулаарай</span>
         </h2>
         <p className="text-[15px] text-cloth-ink">Цахим дэвтэр аппликейшн татах холбоосууд</p>
-        <div className="mt-1 flex items-center gap-6">
+        <div className="mt-1 flex flex-wrap items-center justify-center gap-6">
           <div className="flex flex-col gap-2.5">
             {stores.map((s) => {
               const cls =
@@ -233,11 +246,11 @@ const showcasePage = (i: number) => {
       <span className="hand inline-flex items-center gap-2 text-[28px] leading-none text-pen">
         <s.icon className="h-5 w-5" strokeWidth={2.25} /> {s.tag}
       </span>
-      <h2 className="text-balance text-[27px] font-extrabold leading-[1.12] tracking-tight">
+      <h2 className="text-balance font-extrabold leading-[1.12] tracking-tight" style={{ fontSize: fs(27) }}>
         <Ink>{s.title}</Ink>
       </h2>
       <p className="text-[14px] leading-relaxed text-text-secondary">{s.text}</p>
-      <div className="relative mt-1 flex flex-1 items-start justify-center overflow-hidden border-2 border-text/70 bg-background pt-6"
+      <div className="relative mt-1 flex min-h-[450px] flex-1 items-start justify-center overflow-hidden border-2 border-text/70 bg-background pt-6"
         style={{
           backgroundImage:
             "linear-gradient(rgba(15,122,77,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(15,122,77,0.12) 1px, transparent 1px)",
@@ -258,18 +271,18 @@ export const PAGES: { side: "L" | "R"; node: React.ReactNode }[] = [
     side: "L",
     node: (
       <div className="flex h-full flex-col justify-center gap-5">
-        <h1 className="text-balance text-[44px] font-extrabold leading-[1.08] tracking-tight">
+        <h1 className="text-balance font-extrabold leading-[1.08] tracking-tight" style={{ fontSize: fs(44) }}>
           Цаасан дэвтрийг мартаж.
           <br />
           <span className="pen-underline">Цахим дэвтэр рүү шилжие.</span>
         </h1>
        
         <p className="text-[14px] leading-relaxed text-text-secondary">
-          Цаасан дэвтрийг мартаж, бизнесээ гар утсаараа удирдаарай! Цахим дэвтэр нь жижиг, дунд бизнес эрхлэгчид, дэлгүүр эзэмшигч, борлуулагчдад зориулсан борлуулалт болон санхүүгийн иж бүрэн тооцооллын функцуудыг шингээсэн гар утасны аппликейшн юм.
+          Цаасан дэвтрийг мартаж, бизнесээ гар утаснаасаа удирдаарай! Цахим дэвтэр нь жижиг, дунд бизнес эрхлэгчид, дэлгүүр эзэмшигч, борлуулагчдад зориулсан борлуулалт болон санхүүгийн иж бүрэн тооцооллын функцуудыг шингээсэн гар утасны ухаалаг аппликейшн юм.
         </p>
-        <div className="flex gap-3 pt-1">
+        <div className="flex flex-wrap gap-3 pt-1">
           <Button href="#download" size="md">
-            аппликейшнтатах <ArrowRight className="h-4 w-4" />
+            Аппликейшн татах <ArrowRight className="h-4 w-4" />
           </Button>
           <Button href="#how-it-works" variant="secondary" size="md">
             <PlayCircle className="h-4 w-4" /> Демо үзэх
@@ -311,7 +324,7 @@ export const PAGES: { side: "L" | "R"; node: React.ReactNode }[] = [
               key={s.label}
               className={`flex flex-col gap-1.5 px-3 py-5 ${i % 2 ? "border-l border-text/25" : ""} ${i > 1 ? "border-t border-text/25" : ""}`}
             >
-              <p className="font-mono text-[40px] font-bold leading-none tracking-tight">
+              <p className="font-mono font-bold leading-none tracking-tight" style={{ fontSize: fs(40) }}>
                 {s.decimals ? "99.9%" : `${s.value.toLocaleString("en-US")}${s.suffix}`}
               </p>
               <p className="text-[13px] font-semibold text-text-secondary">{s.label}</p>
@@ -319,7 +332,7 @@ export const PAGES: { side: "L" | "R"; node: React.ReactNode }[] = [
           ))}
         </div>
         <div className="flex flex-col gap-3">
-          <h2 className="text-balance text-[34px] font-extrabold leading-[1.08] tracking-tight">
+          <h2 className="text-balance font-extrabold leading-[1.08] tracking-tight" style={{ fontSize: fs(34) }}>
             <Ink>Цахим дэвтэр софт ХХК</Ink>
           </h2>
           <p className="text-[15px] leading-relaxed text-text-secondary">
