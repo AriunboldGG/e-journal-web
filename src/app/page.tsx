@@ -30,8 +30,8 @@ export default function Home() {
         <HowItWorks />
         <Benefits />
         <Reports />
-        <Security />
-        <WhoIsItFor />
+        {/* <Security /> */}
+        {/* <WhoIsItFor /> */}
         <Roadmap />
         <FAQ />
         <Download />
