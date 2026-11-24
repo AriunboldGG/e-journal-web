@@ -1,4 +1,3 @@
-import { Check, X, NotebookPen, Smartphone } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
@@ -19,29 +18,30 @@ const newWay = [
   "Бараа материалын үлдэгдэл бодит цагт харагдана",
 ];
 
+/** Two pages side by side: the old paper one is struck out, the new one is signed off. */
 export function Benefits() {
   return (
-    <section className="bg-surface py-24 sm:py-32">
-      <Container className="flex flex-col gap-16">
+    <section className="relative border-y-2 border-text/85 bg-surface py-20 sm:py-28">
+      <Container className="flex flex-col gap-14">
         <SectionHeading
           eyebrow="Ялгаа"
+          tone="paper"
+          tabTop="7rem"
           title="Цаасан дэвтэр vs Цахим дэвтэр"
           description="Цаасан дэвтрээс цахим системд шилжихэд юу өөрчлөгдөх вэ?"
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
           <Reveal>
-            <div className="flex h-full flex-col gap-6 rounded-3xl border border-border bg-background p-8">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-black/[0.05] text-text-secondary">
-                  <NotebookPen className="h-5 w-5" />
-                </span>
-                <h3 className="text-lg font-bold text-text-secondary">Хуучин дэвтэр</h3>
-              </div>
-              <ul className="flex flex-col gap-4">
+            <div className="relative h-full -rotate-1 rounded-sm border border-border bg-[#e6e4d6] px-7 pb-8 pt-7 text-[#4a4a3c] shadow-[0_14px_22px_-16px_rgba(0,0,0,0.5)]">
+              <span className="tape -top-3 left-10 -rotate-3 bg-[rgba(120,120,90,0.28)]" />
+              <h3 className="hand mb-4 text-4xl leading-none text-[#4a4a3c]">Хуучин дэвтэр</h3>
+              <ul className="flex flex-col">
                 {oldWay.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm text-text-secondary">
-                    <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+                  <li
+                    key={item}
+                    className="strike-pen border-b border-[#4a4a3c]/25 py-3.5 text-[15px]"
+                  >
                     {item}
                   </li>
                 ))}
@@ -49,18 +49,19 @@ export function Benefits() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.08}>
-            <div className="flex h-full flex-col gap-6 rounded-3xl border border-primary/30 bg-[linear-gradient(160deg,rgba(22,155,98,0.06),rgba(255,255,255,0))] p-8 shadow-[0_20px_50px_-24px_rgba(22,155,98,0.35)]">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#169b62,#22c55e)] text-white">
-                  <Smartphone className="h-5 w-5" />
-                </span>
-                <h3 className="text-lg font-bold text-text">Цахим дэвтэр</h3>
-              </div>
-              <ul className="flex flex-col gap-4">
+          <Reveal delay={0.1}>
+            <div className="sheet relative h-full rotate-1 rounded-sm border-2 border-cloth px-7 pb-8 pt-7">
+              <span className="tape -top-3 right-10 rotate-3" />
+              <h3 className="hand mb-4 text-4xl leading-none text-cloth">Цахим дэвтэр</h3>
+              <ul className="flex flex-col">
                 {newWay.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm font-medium text-text">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 border-b border-text/20 py-3.5 text-[15px] font-semibold text-text"
+                  >
+                    <span aria-hidden="true" className="hand -mt-1 text-3xl leading-none text-cloth">
+                      ✓
+                    </span>
                     {item}
                   </li>
                 ))}

@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Card, IconBadge } from "@/components/ui/card";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 const features = [
@@ -48,30 +47,35 @@ const features = [
   { icon: Truck, title: "Хүргэлт", text: "Онлайнаар зарсан борлуулалт Хүргэлт цэс рүү бүртгэгдэнэ." },
 ];
 
+/** Contents page: every function the notebook has, one ruled line each. */
 export function Features() {
   return (
-    <section id="features" className="py-24 sm:py-32">
-      <Container className="flex flex-col gap-16">
+    <section id="features" className="relative py-20 sm:py-28">
+      <Container className="flex flex-col gap-14">
         <SectionHeading
           eyebrow="Боломжууд"
+          tone="ink"
+          tabTop="9rem"
           title="Бизнест хэрэгтэй бүх үйлдэл нэг дор"
           description="Борлуулалт, бараа бүртгэл, авлага, өглөг, хүргэлт тайлан — Цахим дэвтэр бүгдийг нэг дор шингээв."
         />
 
-        <RevealGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealGroup
+          stagger={0.03}
+          className="sheet-plain grid grid-cols-1 gap-x-14 rounded-sm border-2 border-text/85 px-6 py-4 sm:px-10 md:grid-cols-2"
+        >
           {features.map((f) => (
             <RevealItem key={f.title}>
-              <Card className="h-full !p-6">
-                <div className="flex items-start gap-4">
-                  <IconBadge icon={f.icon} className="h-11 w-11 shrink-0" />
-                  <div>
-                    <h3 className="text-sm font-bold text-text">{f.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-text-secondary">
-                      {f.text}
-                    </p>
-                  </div>
+              <div className="group flex items-start gap-4 border-b border-dashed border-text/25 py-5">
+                <f.icon
+                  className="mt-0.5 h-6 w-6 shrink-0 text-cloth transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                  strokeWidth={1.75}
+                />
+                <div>
+                  <h3 className="text-[15px] font-bold text-text">{f.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-text-secondary">{f.text}</p>
                 </div>
-              </Card>
+              </div>
             </RevealItem>
           ))}
         </RevealGroup>

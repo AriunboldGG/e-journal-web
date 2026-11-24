@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
@@ -19,36 +19,40 @@ const faqs = [
   { q: "Асуудал гарвал хэнтэй холбогдох вэ?", a: "Манай дэмжлэгийн баг 24/7 танд туслахад бэлэн байна." },
 ];
 
+/** Questions as notebook entries; the answer is written beneath in pen. */
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 sm:py-32">
-      <Container className="flex flex-col gap-16">
-        <SectionHeading
-          eyebrow="Түгээмэл асуулт"
-          title="Асуух зүйл байна уу?"
-          description="Хамгийн олон асуудаг асуултуудын хариултыг эндээс олоорой."
-        />
+    <section id="faq" className="relative py-20 sm:py-28">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="">
+          <SectionHeading
+            eyebrow="Түгээмэл асуулт"
+            tone="ink"
+            tabTop="7rem"
+            title="Асуух зүйл байна уу?"
+            description="Хамгийн олон асуудаг асуултуудын хариултыг эндээс олоорой."
+          />
+        </div>
 
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+        <div className="flex w-full flex-col border-t-2 border-text">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
               <Reveal key={f.q} delay={i * 0.03}>
-                <div className="overflow-hidden rounded-2xl border border-border bg-surface">
+                <div className="border-b border-text/25">
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                    className="flex w-full items-center justify-between gap-4 py-5 text-left"
                   >
-                    <span className="text-sm font-semibold text-text sm:text-base">
-                      {f.q}
-                    </span>
-                    <ChevronDown
-                      className={`h-5 w-5 shrink-0 text-text-secondary transition-transform duration-300 ${
-                        isOpen ? "rotate-180 text-primary" : ""
+                    <span className="text-base font-bold text-text">{f.q}</span>
+                    <Plus
+                      className={`h-5 w-5 shrink-0 text-pen transition-transform duration-300 ${
+                        isOpen ? "rotate-45" : ""
                       }`}
+                      strokeWidth={2.5}
                     />
                   </button>
                   <div
@@ -57,7 +61,7 @@ export function FAQ() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="px-6 pb-5 text-sm leading-relaxed text-text-secondary">
+                      <p className="hand pb-5 pr-8 text-[1.45rem] leading-[1.35] text-cloth">
                         {f.a}
                       </p>
                     </div>

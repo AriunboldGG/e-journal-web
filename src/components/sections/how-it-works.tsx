@@ -1,47 +1,55 @@
-import { UserPlus, Store, PackagePlus, ScanBarcode, LineChart, Rocket } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
 const steps = [
-  { icon: UserPlus, title: "Бүртгүүлэх", text: "Хэдхэн минутын дотор апп-д бүртгэл үүсгэнэ." },
-  { icon: Store, title: "Дэлгүүр үүсгэх", text: "Өөрийн дэлгүүр эсвэл салбараа апп-д нэмнэ." },
-  { icon: PackagePlus, title: "Бараа нэмэх", text: "Борлуулах бараагаа жагсаалтад оруулна." },
-  { icon: ScanBarcode, title: "Борлуулалт хийх", text: "Борлуулалтаа аппликейшн дээрээс шууд бүртгэнэ." },
-  { icon: LineChart, title: "Тайлан харах", text: "Ашиг, орлого, зарлагаа бодит цагт хянана." },
-  { icon: Rocket, title: "Бизнесээ өсгөх", text: "Дата дээр үндэслэн зөв шийдвэр гаргана." },
+  { title: "Бүртгүүлэх", text: "Хэдхэн минутын дотор апп-д бүртгэл үүсгэнэ." },
+  { title: "Дэлгүүр үүсгэх", text: "Өөрийн дэлгүүр эсвэл салбараа апп-д нэмнэ." },
+  { title: "Бараа нэмэх", text: "Борлуулах бараагаа жагсаалтад оруулна." },
+  { title: "Борлуулалт хийх", text: "Борлуулалтаа аппликейшн дээрээс шууд бүртгэнэ." },
+  { title: "Тайлан харах", text: "Ашиг, орлого, зарлагаа бодит цагт хянана." },
+  { title: "Бизнесээ өсгөх", text: "Дата дээр үндэслэн зөв шийдвэр гаргана." },
 ];
 
+/** A to-do page: the six steps, ticked off in order. */
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 sm:py-32">
-      <Container className="flex flex-col gap-16">
-        <SectionHeading
-          eyebrow="Хэрхэн ажилладаг"
-          title="6 алхмаар эхлээрэй"
-          description="-"
-        />
+    <section id="how-it-works" className="relative py-20 sm:py-28">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="">
+          <SectionHeading
+            eyebrow="Хэрхэн ажилладаг"
+            tone="red"
+            tabTop="8rem"
+            title="Ашиглаж эхлэх алхамууд"
+            description="Таны бизнесийг онлайнжуулахад тусална"
+          />
+        </div>
 
-        <div className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="absolute left-1/2 top-8 hidden h-px w-[calc(100%-8rem)] -translate-x-1/2 bg-[linear-gradient(90deg,transparent,var(--color-border)_15%,var(--color-border)_85%,transparent)] lg:block" />
-
+        <ol className="sheet margin-rule relative rounded-sm border border-border pb-10 pl-[4.6rem] pr-6 pt-[36px] sm:pr-10">
+          <span className="spiral" aria-hidden="true" />
           {steps.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.06}>
-              <div className="relative flex flex-col items-start gap-4 rounded-3xl border border-border bg-surface p-6">
-                <div className="flex items-center gap-3">
-                  <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#169b62,#22c55e)] text-white shadow-[0_10px_20px_-8px_rgba(22,155,98,0.5)]">
-                    <s.icon className="h-6 w-6" strokeWidth={1.75} />
-                  </span>
-                  <span className="text-xs font-bold text-text-secondary">
-                    Алхам {i + 1}
-                  </span>
+            <Reveal key={s.title} delay={i * 0.05}>
+              <li className="relative pb-9 [counter-increment:step]">
+                <span
+                  aria-hidden="true"
+                  className="hand absolute -left-[3.6rem] top-0 flex h-9 w-9 items-center justify-center text-[1.7rem] leading-none text-pen"
+                >
+                  {i + 1}.
+                </span>
+                <div className="flex flex-wrap items-baseline gap-x-3 leading-9">
+                  <h3 className="text-lg font-bold text-text">
+                    <span className="mr-2 font-mono text-xs font-semibold text-text-secondary">
+                      Алхам {i + 1}
+                    </span>
+                    {s.title}
+                  </h3>
                 </div>
-                <h3 className="text-lg font-bold text-text">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-text-secondary">{s.text}</p>
-              </div>
+                <p className="text-[15px] leading-9 text-text-secondary">{s.text}</p>
+              </li>
             </Reveal>
           ))}
-        </div>
+        </ol>
       </Container>
     </section>
   );

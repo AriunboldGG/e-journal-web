@@ -1,19 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #169b62;
+  /* brand anchor */
+  --color-primary: #0f7a4d;
+  --color-brand: #169b62;
   --color-secondary: #27ae60;
   --color-accent: #22c55e;
-  --color-background: #f8faf9;
-  --color-surface: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #6b7280;
-  --color-border: #e8ecef;
+  /* book cloth cover */
+  --color-cloth: #0b5233;
+  --color-cloth-deep: #083d26;
+  --color-cloth-ink: #d3eadf;
+  /* paper + ink */
+  --color-background: #eef4f0;
+  --color-surface: #fbfdfb;
+  --color-text: #0f2118;
+  --color-text-secondary: #46594e;
+  --color-border: #c4d6cb;
+  --color-rule: #b9d3c4;
   --color-success: #34d399;
+  /* the one pen colour that is not green */
+  --color-pen: #c4352b;
 }
 
 @theme inline {
   --color-primary: var(--color-primary);
+  --color-brand: var(--color-brand);
   --color-secondary: var(--color-secondary);
   --color-accent: var(--color-accent);
   --color-background: var(--color-background);
@@ -21,8 +32,15 @@
   --color-text: var(--color-text);
   --color-text-secondary: var(--color-text-secondary);
   --color-border: var(--color-border);
+  --color-rule: var(--color-rule);
   --color-success: var(--color-success);
-  --font-sans: var(--font-inter);
+  --color-cloth: var(--color-cloth);
+  --color-cloth-deep: var(--color-cloth-deep);
+  --color-cloth-ink: var(--color-cloth-ink);
+  --color-pen: var(--color-pen);
+  --font-sans: var(--font-geologica);
+  --font-hand: var(--font-caveat);
+  --font-mono: var(--font-jetbrains);
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-float-slow: float 9s ease-in-out infinite;
@@ -35,7 +53,7 @@
       transform: translateY(0px);
     }
     50% {
-      transform: translateY(-16px);
+      transform: translateY(-10px);
     }
   }
   @keyframes gradient-move {
@@ -55,32 +73,67 @@
       transform: translateX(-50%);
     }
   }
+  @keyframes stamp-in {
+    0% {
+      opacity: 0;
+      transform: rotate(-9deg) scale(1.6);
+    }
+    60% {
+      opacity: 1;
+      transform: rotate(-9deg) scale(0.96);
+    }
+    100% {
+      opacity: 1;
+      transform: rotate(-7deg) scale(1);
+    }
+  }
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
+/* The desk: faint graph paper under everything */
 body {
-  background: var(--color-background);
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(rgba(15, 122, 77, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 122, 77, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
   color: var(--color-text);
+  font-feature-settings: "tnum" 1, "case" 0;
 }
 
 ::selection {
-  background: var(--color-primary);
-  color: white;
+  background: var(--color-pen);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-pen);
+  outline-offset: 3px;
+}
+
+input,
+textarea {
+  caret-color: var(--color-pen);
+}
+
+html {
+  scrollbar-color: var(--color-cloth) var(--color-background);
 }
 
 .container-app {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1200px;
   margin-inline: auto;
   padding-inline: 1.5rem;
 }
 
 @media (min-width: 768px) {
   .container-app {
-    padding-inline: 2rem;
+    padding-inline: 2.5rem;
   }
 }
 
@@ -88,8 +141,162 @@ body {
   text-wrap: balance;
 }
 
-.bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+/* ---------- notebook materials ---------- */
+
+/* Book cloth: a woven field with a dark stitched edge */
+.cloth {
+  background-color: var(--color-cloth);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 3px);
+  color: #fff;
+}
+
+.stitch {
+  position: relative;
+}
+.stitch::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px dashed rgba(211, 234, 223, 0.38);
+  pointer-events: none;
+}
+
+/* A sheet of ruled ledger paper */
+.sheet {
+  background-color: var(--color-surface);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 35px,
+    var(--color-rule) 35px,
+    var(--color-rule) 36px
+  );
+  background-position: 0 0;
+  box-shadow:
+    0 1px 0 rgba(15, 33, 24, 0.08),
+    0 14px 24px -14px rgba(8, 61, 38, 0.38);
+}
+
+.sheet-plain {
+  background-color: var(--color-surface);
+  box-shadow:
+    0 1px 0 rgba(15, 33, 24, 0.08),
+    0 14px 24px -14px rgba(8, 61, 38, 0.3);
+}
+
+/* Double red margin rule, as on an accounting ledger */
+.margin-rule {
+  position: relative;
+}
+.margin-rule::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3.25rem;
+  width: 5px;
+  border-left: 1px solid rgba(196, 53, 43, 0.55);
+  border-right: 1px solid rgba(196, 53, 43, 0.55);
+  pointer-events: none;
+}
+
+/* Spiral binding along the top edge */
+.spiral {
+  position: absolute;
+  top: -11px;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--color-cloth-deep) 0 3.2px,
+    transparent 3.6px
+  );
+  background-size: 26px 22px;
+  background-repeat: repeat-x;
+  background-position: 14px 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Washi tape holding things down */
+.tape {
+  position: absolute;
+  width: 88px;
+  height: 26px;
+  background: rgba(22, 155, 98, 0.32);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.28) 0 6px,
+    transparent 6px 12px
+  );
+  box-shadow: 0 1px 2px rgba(8, 61, 38, 0.18);
+  pointer-events: none;
+}
+
+/* Rubber stamp */
+.stamp {
+  display: inline-block;
+  border: 2.5px solid var(--color-pen);
+  color: var(--color-pen);
+  padding: 0.35rem 0.8rem;
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  transform: rotate(-7deg);
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+}
+.stamp-animate {
+  animation: stamp-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+}
+
+/* Handwritten ink */
+.hand {
+  font-family: var(--font-caveat), "Segoe Script", cursive;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Pen underline: double rule, the way totals are underlined */
+.pen-underline {
+  text-decoration-line: underline;
+  text-decoration-style: double;
+  text-decoration-color: var(--color-pen);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.14em;
+}
+.pen-underline-light {
+  text-decoration-line: underline;
+  text-decoration-style: double;
+  text-decoration-color: #ffd9cf;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.14em;
+}
+
+/* Strike-through in red pen */
+.strike-pen {
+  text-decoration-line: line-through;
+  text-decoration-color: var(--color-pen);
+  text-decoration-thickness: 2px;
+}
+
+/* Dotted leader between a label and its value, as in a contents page */
+.leader {
+  flex: 1;
+  min-width: 1rem;
+  border-bottom: 2px dotted var(--color-border);
+  transform: translateY(-0.3em);
+}
+
+/* Divider tab sticking out of the right edge of a page */
+.tab-edge {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 @media (prefers-reduced-motion: reduce) {

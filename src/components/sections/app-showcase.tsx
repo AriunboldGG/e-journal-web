@@ -1,11 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { PhoneFrame } from "@/components/ui/phone-frame";
+import { AppShot } from "@/components/ui/app-shot";
 import { Reveal } from "@/components/ui/reveal";
-import { DashboardScreen } from "@/components/screens/dashboard-screen";
-import { ProductsScreen } from "@/components/screens/products-screen";
-import { ReportsScreen } from "@/components/screens/reports-screen";
-import { POSScreen } from "@/components/screens/pos-screen";
 import { LayoutDashboard, Boxes, BarChart3, ShoppingCart } from "lucide-react";
 
 const showcases = [
@@ -14,62 +10,72 @@ const showcases = [
     tag: "Хяналтын самбар",
     title: "Бизнесээ нэг аппликейшнээс удирдана",
     text: "Өнөөдрийн борлуулалт, ашиг, захиалгын тоог нэг дэлгэцээс шууд харах боломжтой. ",
-    screen: <DashboardScreen />,
+    shot: "/images/screenshots/image00001.png",
+    alt: "Хяналтын самбар: өнөөдрийн нийт борлуулалт, салбар сонгох, үндсэн цэсүүд",
     reverse: false,
+    tilt: "-rotate-2",
   },
   {
     icon: ShoppingCart,
     tag: "Борлуулалт",
     title: "Хэдхэн товшилтоор борлуулалтаа бүртгэнэ",
     text: "Бараагаа сонгоод, борлуулалтын сувгаа сонгоод, төлбөрөө бүртгэхэд хангалттай. Борлуулалтын түүхийг хялбархан харах боломжтой.",
-    screen: <POSScreen />,
+    shot: "/images/screenshots/image00005.png",
+    alt: "Хаалтын жагсаалт: огноо, дүн, төлөв",
     reverse: true,
+    tilt: "rotate-2",
   },
   {
     icon: Boxes,
     tag: "Бараа материал",
     title: "Нөөцөө үргэлж мэдэж байх",
     text: "Аль бараа дуусаж байгааг мэдэгдэл илгээж сануулна. Шинэ бараа нэмэх, хайх, ангилах — бүгд энгийн.",
-    screen: <ProductsScreen />,
+    shot: "/images/screenshots/image00003.png",
+    alt: "Бараа: зураг, үнэ, үлдэгдэл бүхий барааны жагсаалт",
     reverse: false,
+    tilt: "-rotate-1",
   },
   {
     icon: BarChart3,
     tag: "Тайлан",
     title: "Ашгийн тайлан харна",
     text: "Сарын ашиг, хамгийн их зарагдсан бараа, зарлагын мэдээллийг ойлгомжтой хэлбэрээр танилцуулна.",
-    screen: <ReportsScreen />,
+    shot: "/images/screenshots/image00004.png",
+    alt: "Санхүүгийн тайлан: нийт орлого, буцаалт, зарлага, авлага",
     reverse: true,
+    tilt: "rotate-1",
   },
 ];
 
+/** Photos pasted into the notebook: each phone is taped to a graph-paper mount. */
 export function AppShowcase() {
   return (
-    <section className="relative overflow-hidden bg-surface py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-1/2 h-[50rem] w-[50rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(22,155,98,0.06),transparent_70%)]" />
-      </div>
-
+    <section className="relative border-y-2 border-text/85 bg-surface py-20 sm:py-28">
       <Container className="flex flex-col gap-20 sm:gap-28">
         <SectionHeading
           eyebrow="Мобайл апп"
+          tone="green"
+          tabTop="6rem"
           title="Таны гар утсан дахь хувийн санхүүч"
           description="Цахим дэвтэр таны гар утсан дээр байнга байж, бизнесээ хаанаас ч удирдах боломжийг олгоно."
         />
 
-        <div className="flex flex-col gap-24 sm:gap-32">
-          {showcases.map((s, i) => (
-            <div key={s.tag} className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-8">
+        <div className="flex flex-col gap-20 sm:gap-28">
+          {showcases.map((s) => (
+            <div
+              key={s.tag}
+              className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+            >
               <Reveal
                 delay={0.05}
-                className={`flex flex-col items-start gap-5 ${
+                className={`flex flex-col items-start gap-4 ${
                   s.reverse ? "lg:order-2" : "lg:order-1"
                 }`}
               >
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-                  <s.icon className="h-3.5 w-3.5" /> {s.tag}
+                <span className="hand inline-flex items-center gap-2 text-3xl leading-none text-pen">
+                  <s.icon className="h-5 w-5" strokeWidth={2.25} /> {s.tag}
                 </span>
-                <h3 className="text-balance text-2xl font-bold tracking-tight text-text sm:text-3xl">
+                <h3 className="text-balance text-2xl font-extrabold tracking-tight text-text sm:text-4xl">
                   {s.title}
                 </h3>
                 <p className="max-w-md text-balance text-base leading-relaxed text-text-secondary">
@@ -79,13 +85,19 @@ export function AppShowcase() {
 
               <Reveal
                 delay={0.1}
-                className={`relative flex items-center justify-center py-6 ${
-                  s.reverse ? "lg:order-1" : "lg:order-2"
-                }`}
+                className={`${s.reverse ? "lg:order-1" : "lg:order-2"}`}
               >
-                <div className="absolute h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(22,155,98,0.12),transparent_70%)] blur-2xl" />
-                <div className="animate-float-slow relative z-10">
-                  <PhoneFrame>{s.screen}</PhoneFrame>
+                <div
+                  className={`relative mx-auto flex w-full max-w-md justify-center border-2 border-text/85 bg-background px-6 pb-8 pt-12 ${s.tilt}`}
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(rgba(15,122,77,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(15,122,77,0.12) 1px, transparent 1px)",
+                    backgroundSize: "22px 22px",
+                  }}
+                >
+                  <span className="tape -top-3 left-8 -rotate-6" />
+                  <span className="tape -top-3 right-8 rotate-6" />
+                  <AppShot src={s.shot} alt={s.alt} />
                 </div>
               </Reveal>
             </div>

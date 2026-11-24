@@ -1,53 +1,44 @@
-import {
-  Sparkles,
-  Cloud,
-  ShieldCheck,
-  Zap,
-  Clock,
-  MapPin,
-  WifiOff,
-  Wallet,
-} from "lucide-react";
+import { Check } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Card, IconBadge } from "@/components/ui/card";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 const reasons = [
-  { icon: Sparkles, title: "Ашиглахад хялбар", text: "Толгой эргэм тоо томшгүй олон үйлдэлгүй" },
-  { icon: Cloud, title: "Клауд суурьтай", text: "Мэдээлэл үүлэн технологид хадгалагдана, гацахгүй, удааширахгүй" },
-  { icon: ShieldCheck, title: "Найдвартай хамгаалалт", text: "Таны бизнесийн өгөгдөл шифрлэгдсэн, аюулгүй орчинд хадгалагдана." },
-  { icon: Zap, title: "Хурдан ажиллагаа", text: "Секундын дотор борлуулалт бүртгэж, бодит цагаар харуулна." },
-  { icon: Clock, title: "24/7 хандах боломж", text: "Өдрийн 24 цагт, танд тулгарсан асуудалд сошиал сувгуудаараа хариу өгнө" },
-  { icon: MapPin, title: "Орон даяар ашиглах боломжтой", text: "Хэн ч хаанаас салбаруудаа удирдах боломжтой" },
-  { icon: WifiOff, title: "Офлайн горим (тун удахгүй)", text: "Интернэт тасарсан ч ажлаа зогсоохгүй үргэлжлүүлнэ." },
-  { icon: Wallet, title: "Боломжийн үнэ", text: "Ажиллагаа бүрт тохирсон үнийн санал." },
+  { title: "Ашиглахад хялбар", text: "Толгой эргэм тоо томшгүй олон үйлдэлгүй" },
+  { title: "Клауд суурьтай", text: "Мэдээлэл үүлэн технологид хадгалагдана, гацахгүй, тасалдаж алга болохгүй" },
+  { title: "Найдвартай хамгаалалт", text: "Таны бизнесийн өгөгдөл шифрлэгдсэн, аюулгүй орчинд хадгалагдана." },
+  { title: "Хурдан ажиллагаа", text: "Секундын дотор борлуулалт бүртгэж, бодит цагаар харуулна." },
+  { title: "24/7 хандах боломж", text: "Өдрийн 24 цагт, танд тулгарсан асуудалд сошиал сувгуудаараа хариу өгнө" },
+  { title: "Орон даяар ашиглах боломжтой", text: "Хэн ч хаанаас салбаруудаа удирдах боломжтой" },
+  { title: "Офлайн горим (тун удахгүй)", text: "Интернэт тасарсан ч ажлаа зогсоохгүй үргэлжлүүлнэ." },
+  { title: "Боломжийн үнэ", text: "Ажиллагаа бүрт тохирсон үнийн санал." },
 ];
 
+/** A spec sheet: row after row, ticked off. */
 export function WhyChooseUs() {
   return (
-    <section id="why-us" className="bg-surface py-24 sm:py-32">
-      <Container className="flex flex-col gap-16">
-        <SectionHeading
-          eyebrow="Яагаад бид"
-          title="Танд яагаад Цахим дэвтэр хэрэгтэй вэ?"
-<<<<<<< HEAD
-          description="Бид бизнес эрхлэгчдэд бодит амьдрал дээр тулгардаг асуудлуудыг шийдэхэд зориулж энэхүү аппликейшнийг бүтээв."
-=======
-          description="Бодит амьдрал дээр санхүүгээ удирдахад тулгардаг асуудлыг шийдэхэд төвлөрдөг."
->>>>>>> 040c9d5b234e9780e2ebf426c16759abce234fb7
-        />
+    <section id="why-us" className="relative border-y-2 border-text/85 bg-surface py-20 sm:py-28">
+      <Container className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="">
+          <SectionHeading
+            eyebrow="Яагаад бид"
+            tone="red"
+            tabTop="5rem"
+            title="Танд яагаад Цахим дэвтэр хэрэгтэй вэ?"
+            description="Бүгдийг нэг дороос"
+          />
+        </div>
 
-        <RevealGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup className="flex flex-col border-t-2 border-text" stagger={0.05}>
           {reasons.map((r) => (
             <RevealItem key={r.title}>
-              <Card className="h-full">
-                <IconBadge icon={r.icon} />
-                <h3 className="mt-5 text-base font-bold text-text">{r.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+              <div className="grid grid-cols-[2rem_1fr] gap-x-4 border-b border-text/25 py-5 sm:grid-cols-[2rem_15rem_1fr]">
+                <Check className="mt-0.5 h-6 w-6 text-pen" strokeWidth={3} />
+                <h3 className="text-base font-bold text-text">{r.title}</h3>
+                <p className="col-start-2 mt-1 text-sm leading-relaxed text-text-secondary sm:col-start-3 sm:mt-0">
                   {r.text}
                 </p>
-              </Card>
+              </div>
             </RevealItem>
           ))}
         </RevealGroup>

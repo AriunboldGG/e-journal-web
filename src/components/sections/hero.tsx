@@ -1,160 +1,117 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, PlayCircle, Star } from "lucide-react";
+import { ArrowRight, PlayCircle } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { Eyebrow } from "@/components/ui/section-heading";
-import { PhoneFrame } from "@/components/ui/phone-frame";
-import { DashboardScreen } from "@/components/screens/dashboard-screen";
-import { POSScreen } from "@/components/screens/pos-screen";
-import { ReportsScreen } from "@/components/screens/reports-screen";
+import { AppShot } from "@/components/ui/app-shot";
+
+const entries = [
+  { label: "Борлуулалт", text: "Хэдхэн товшилтоор борлуулалт хийж, борлуулалтаа цахимаар бүртгэх." },
+  { label: "Бараа материалын удирдлага", text: "Нөөцийн үлдэгдлийг бодит цагт хянаж, бараа дуусахаас урьдчилан сэргийлэх." },
+  { label: "Санххууүгийн тайлан & Аналитик", text: "Орлого, зарлага, цэвэр ашиг болон хамгийн их зарагдсан барааны дэлгэрэнгүй тайланг харах." },
+  { label: "Олон салбарын удирдлага", text: "Хэд хэдэн дэлгүүр, салбараа нэг бүртгэлээр удирдах." },
+  { label: "Өр авлагын бүртгэл", text: "Харилцагчийн зээл болон нийлүүлэгчийн төлбөрийн хяналт." },
+  { label: "Аюулгүй байдал", text: "Mэдээлэл үүлэн технологид (Cloud) шифрлэгдэн найдвартай хадгалагдана." },
+  { label: "Хүргэлт", text: "Онлайнаар хийгдсэн борлуулалтын бүртгэлээ аппликэйшнээсээ удирдаарай." },
+];
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-32 left-1/2 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(22,155,98,0.16),transparent_65%)] blur-2xl" />
-        <div className="absolute -right-40 top-40 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(34,197,94,0.14),transparent_65%)] blur-2xl" />
-        <div className="absolute -left-32 bottom-0 h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(52,211,153,0.12),transparent_65%)] blur-2xl" />
-        <div className="absolute inset-0 bg-noise" />
-      </div>
-
-      <Container className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-8">
+    <section className="cloth stitch relative overflow-hidden pt-[4.25rem]">
+      <Container className="grid grid-cols-1 items-center gap-14 py-16 sm:py-20 lg:grid-cols-[1fr_1.02fr] lg:gap-12 lg:py-24">
         <div className="flex flex-col items-start gap-7">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Eyebrow>Бизнесийн ухаалаг туслах</Eyebrow>
-          </motion.div>
-
           <motion.h1
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-balance text-4xl font-bold leading-[1.08] tracking-tight text-text sm:text-5xl lg:text-[3.4rem]"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.6rem]"
           >
             Цаасан дэвтрийг мартаж.
             <br />
-            <span className="bg-[linear-gradient(135deg,#169b62,#22c55e)] bg-clip-text text-transparent">
-              Цахим дэвтэр рүү шилжие.
-            </span>
+            <span className="pen-underline-light">Цахим дэвтэр рүү шилжие.</span>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25 }}
-            className="max-w-lg text-balance text-lg leading-relaxed text-text-secondary"
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="flex max-w-xl flex-col gap-4 text-base leading-relaxed text-cloth-ink sm:text-lg"
           >
-            Цахим дэвтэр нь бизнес эрхлэгч таньд борлуулалт, санхүүгийн урсгалыг нэг дор удирдах боломжийг олгох энгийн, найдвартай гар утасны аппликейшн юм.
 
-Цаасан дэвтрийг мартаж, бизнесээ гар утсаараа удирдаарай! Цахим дэвтэр нь жижиг, дунд бизнес эрхлэгчид, дэлгүүр эзэмшигч, борлуулагчдад зориулсан борлуулалт болон санхүүгийн иж бүрэн тооцооллын функцуудыг шингээсэн гар утасны аппликейшн юм.
-
-Үндсэн боломжууд:
-
-Борлуулалт: Хэдхэн товшилтоор борлуулалт хийж, борлуулалтаа цахим бүртгэх.
-
-Бараа материалын удирдлага: Нөөцийн үлдэгдлийг бодит цагт хянаж, бараа дуусахаас урьдчилан сэргийлэх.
-
-Санххууүгийн тайлан & Аналитик: Орлого, зарлага, цэвэр ашиг болон хамгийн их зарагдсан барааны дэлгэрэнгүй тайланг харах.
-
-Олон салбарын удирдлага: Хэд хэдэн дэлгүүр, салбараа нэг бүртгэлээр удирдах.
-
-Өр авлагын бүртгэл: Харилцагчийн зээл болон нийлүүлэгчийн төлбөрийн хяналт.
-
-Аюулгүй байдал: Mэдээлэл үүлэн технологид (Cloud) шифрлэгдэн найдвартай хадгалагдана.
-
-Хүргэлт: Онлайнаар хийгдсэн борлуулалтын бүртгэлээ аппликэйшнээсээ удирдаарай.
-          </motion.p>
+            <p>
+              Цаасан дэвтрийг мартаж, бизнесээ гар утаснаасаа удирдаарай! Цахим дэвтэр нь жижиг, дунд бизнес эрхлэгчид, дэлгүүр эзэмшигч, борлуулагчдад зориулсан борлуулалт болон санхүүгийн иж бүрэн тооцооллын функцуудыг шингээсэн гар утасны аппликейшн юм.
+            </p>
+          </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-            className="flex flex-col gap-4 sm:flex-row"
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex flex-col gap-3 sm:flex-row"
           >
-            <Button href="#download" size="lg">
-              аппликейшнтатах <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Button href="#download" variant="paper" size="lg">
+              Аппликейшн татах{" "}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button href="#how-it-works" variant="secondary" size="lg">
+            <Button
+              href="#how-it-works"
+              variant="ghost"
+              size="lg"
+              className="border-white/70 text-white hover:border-white hover:bg-white/10"
+            >
               <PlayCircle className="h-4 w-4" /> Демо үзэх
             </Button>
           </motion.div>
+        </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex items-center gap-3 pt-2"
-          >
-            <div className="flex -space-x-2.5">
-              {["#169B62", "#27AE60", "#22C55E", "#34D399"].map((c, i) => (
-                <span
-                  key={i}
-                  className="h-8 w-8 rounded-full border-2 border-background"
-                  style={{ background: c }}
-                />
+        {/* The page: an open ledger sheet lying on the cloth */}
+        <motion.div
+          initial={{ opacity: 0, y: 40, rotate: 0 }}
+          animate={{ opacity: 1, y: 0, rotate: 1.4 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mx-auto w-full max-w-[540px] pb-28 sm:pb-20"
+        >
+          <div className="sheet margin-rule relative rounded-sm pb-56 pl-[4.6rem] pr-6 pt-[36px] sm:pr-8">
+            <span className="spiral" aria-hidden="true" />
+            <h2 className="hand h-9 text-[1.9rem] leading-9 text-cloth">Үндсэн боломжууд:</h2>
+            <div className="h-9" />
+            <ul className="text-[15px] leading-9 text-text">
+              {entries.map((e) => (
+                <li key={e.label}>
+                  <span className="font-bold">{e.label}:</span>{" "}
+                  <span className="text-text-secondary">{e.text}</span>
+                </li>
               ))}
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <p className="text-xs text-text-secondary">
-                500+ бизнес эрхлэгчид итгэдэг
-              </p>
-            </div>
-          </motion.div>
-        </div>
+            </ul>
 
-        <div className="relative flex h-[540px] items-center justify-center lg:h-[620px]">
-          <div className="absolute h-[420px] w-[420px] rounded-full bg-[linear-gradient(135deg,rgba(22,155,98,0.14),rgba(34,197,94,0.08))] blur-3xl" />
-          <div className="absolute h-[300px] w-[300px] rounded-full border border-white/40 bg-white/20 backdrop-blur-2xl" />
+            <div className="absolute bottom-5 left-[4.6rem]">
+              <span className="stamp stamp-animate text-[11px] sm:text-xs">
+                Бүртгэлтэй 100+ бизнес эрхлэгчид 
+              </span>
+            </div>
+          </div>
 
-          <motion.div
-            className="absolute -left-4 top-6 z-10 hidden sm:block lg:-left-2"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-          >
+          <span className="tape -top-3 left-1/2 hidden -translate-x-1/2 rotate-2 sm:block" />
+
+          <div className="absolute -bottom-2 right-3 z-10 sm:bottom-[-3.5rem] sm:right-[-1.25rem]">
             <div className="animate-float-slow">
-              <PhoneFrame className="w-[190px] scale-90 opacity-90">
-                <ReportsScreen />
-              </PhoneFrame>
+              <AppShot
+                src="/images/screenshots/image00001.png"
+                alt="Цахим дэвтэр апп: нүүр хуудас, өнөөдрийн нийт борлуулалт"
+                className="w-[150px] rotate-[3deg] rounded-[2rem] border-[5px] p-1 sm:w-[168px]"
+                priority
+              />
             </div>
-          </motion.div>
-
-          <motion.div
-            className="relative z-20"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.15 }}
-          >
-            <div className="animate-float">
-              <PhoneFrame className="w-[240px] shadow-[0_40px_80px_-20px_rgba(16,24,40,0.4)]">
-                <DashboardScreen />
-              </PhoneFrame>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="absolute -right-2 bottom-2 z-10 hidden sm:block lg:right-0"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.45 }}
-          >
-            <div className="animate-float-slow">
-              <PhoneFrame className="w-[190px] scale-90 opacity-90">
-                <POSScreen />
-              </PhoneFrame>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+          <div className="absolute -bottom-6 right-[7.5rem] z-[5] hidden sm:block sm:bottom-[-2rem] sm:right-[8.5rem]">
+            <AppShot
+              src="/images/screenshots/image00002.png"
+              alt="Цахим дэвтэр апп: үндсэн цэсүүд"
+              className="w-[140px] -rotate-[5deg] rounded-[2rem] border-[5px] p-1"
+            />
+          </div>
+        </motion.div>
       </Container>
     </section>
   );

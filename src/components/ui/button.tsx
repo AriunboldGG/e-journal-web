@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 type ButtonProps = {
   href: string;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "paper";
   size?: "md" | "lg";
   className?: string;
   children: React.ReactNode;
@@ -19,19 +19,24 @@ export function Button({
   external,
 }: ButtonProps) {
   const base =
-    "group relative inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 will-change-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+    "group relative inline-flex whitespace-nowrap items-center justify-center gap-2 rounded-md border-2 font-semibold transition-all duration-300 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pen focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
   const sizes = {
-    md: "px-6 py-3 text-sm",
-    lg: "px-8 py-4 text-base",
+    md: "px-5 py-2.5 text-sm",
+    lg: "px-7 py-3.5 text-base",
   };
 
   const variants = {
+    // on paper: green book-cloth label
     primary:
-      "bg-[linear-gradient(135deg,#169b62,#22c55e)] text-white shadow-[0_8px_24px_-8px_rgba(22,155,98,0.55)] hover:shadow-[0_12px_32px_-8px_rgba(22,155,98,0.7)] hover:-translate-y-0.5",
+      "border-cloth-deep bg-cloth text-white shadow-[0_10px_18px_-10px_rgba(8,61,38,0.7)] hover:-translate-y-0.5 hover:bg-cloth-deep",
+    // on paper: outlined in ink
     secondary:
-      "bg-surface text-text border border-border hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.15)]",
-    ghost: "text-text hover:bg-black/[0.04]",
+      "border-text bg-surface text-text hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_10px_18px_-12px_rgba(15,33,24,0.45)]",
+    ghost: "border-transparent text-text hover:border-border hover:bg-white/60",
+    // on the green cover: a paper label
+    paper:
+      "border-white/80 bg-surface text-cloth-deep hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_20px_-12px_rgba(0,0,0,0.55)]",
   };
 
   return (
@@ -41,7 +46,7 @@ export function Button({
       rel={external ? "noopener noreferrer" : undefined}
       className={cn(base, sizes[size], variants[variant], className)}
     >
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
     </Link>
   );
 }

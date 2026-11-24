@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geologica, Caveat, JetBrains_Mono } from "next/font/google";
 import { SITE } from "@/lib/constants";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "cyrillic", "cyrillic-ext"],
+const geologica = Geologica({
+  variable: "--font-geologica",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
@@ -120,7 +132,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="mn" className={`${inter.variable} antialiased`}>
+    <html lang="mn" className={`${geologica.variable} ${caveat.variable} ${jetbrains.variable} antialiased`}>
       <body className="min-h-screen bg-background font-sans text-text">
         {children}
         <script
