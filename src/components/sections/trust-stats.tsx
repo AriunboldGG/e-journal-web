@@ -4,7 +4,7 @@ import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 const stats = [
   { value: 500, suffix: "+", label: "Бизнес эрхлэгчид" },
-  { value: 15000, suffix: "+", label: "Гүйлгээ сар бүр" },
+  { value: 15000, suffix: "+", label: "Бараа бүтээгдэхүүн" },
   { value: 99.9, suffix: "%", label: "Тасралтгүй ажиллагаа", decimals: true },
   { value: 24, suffix: "/7", label: "Дэмжлэг үйлчилгээ" },
 ];
