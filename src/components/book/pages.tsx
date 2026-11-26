@@ -1,5 +1,6 @@
 "use client";
 
+import { useLayoutEffect, useRef } from "react";
 import { ArrowDown, ArrowRight, PlayCircle, QrCode } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
@@ -57,14 +58,13 @@ function Shell({
           }, rgba(8,61,38,0.2), rgba(8,61,38,0.05) 45%, transparent)`,
         }}
       />
-      <div
-        className={`absolute inset-0 flex flex-col ${
-          compact ? "overflow-y-auto overscroll-y-auto" : ""
-        }`}
-        style={{ padding: compact ? "30px 22px 48px" : "56px 52px 52px" }}
-      >
-        <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
-      </div>
+      {compact ? (
+        <FitBox>{children}</FitBox>
+      ) : (
+        <div className="absolute inset-0 flex flex-col" style={{ padding: "56px 52px 52px" }}>
+          <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
+        </div>
+      )}
       <span
         aria-hidden="true"
         className={`hand pointer-events-none absolute bottom-3 z-10 text-[20px] leading-none text-text-secondary ${
@@ -73,6 +73,48 @@ function Shell({
       >
         {n}
       </span>
+    </div>
+  );
+}
+
+/**
+ * A page on a phone never scrolls: if its content is taller than the page, the whole
+ * content is shrunk to fit, so everything on the page is visible at once.
+ */
+function FitBox({ children }: { children: React.ReactNode }) {
+  const box = useRef<HTMLDivElement>(null);
+  const wrap = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const b = box.current;
+    const w = wrap.current;
+    if (!b || !w) return;
+    const fit = () => {
+      w.style.width = "100%";
+      w.style.height = "100%";
+      w.style.transform = "none";
+      const avail = b.clientHeight;
+      const natural = w.scrollHeight;
+      if (!avail || !natural) return;
+      const sc = Math.max(0.42, Math.min(1, avail / natural));
+      w.style.width = `${100 / sc}%`;
+      w.style.height = `${100 / sc}%`;
+      w.style.transform = sc < 1 ? `scale(${sc})` : "none";
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(b);
+    document.fonts?.ready.then(fit);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div className="absolute inset-0" style={{ padding: "30px 22px 48px" }}>
+      <div ref={box} className="relative h-full w-full overflow-hidden">
+        <div ref={wrap} className="relative flex flex-col" style={{ transformOrigin: "0 0" }}>
+          <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -157,7 +199,7 @@ export function FrontCover() {
 export function BackCover() {
   return (
     <div
-      className="cloth stitch relative flex h-full w-full flex-col items-center justify-between gap-6 overflow-y-auto rounded-l-md px-[8%] py-[7%] text-center"
+      className="cloth stitch relative flex h-full w-full flex-col items-center justify-center gap-9 overflow-hidden rounded-l-md px-[9%] py-[7%] text-center"
       style={{ containerType: "inline-size" }}
     >
       <span
@@ -168,24 +210,32 @@ export function BackCover() {
             "linear-gradient(to left, rgba(0,0,0,0.38), rgba(0,0,0,0.12) 60%, transparent)",
         }}
       />
-      <div className="relative flex flex-col items-center gap-5">
-        <span className="hand -rotate-2 text-[32px] leading-none text-cloth-ink">Аппликейшн татах</span>
-        <h2 className="text-balance font-extrabold leading-[1.05] tracking-tight text-white" style={{ fontSize: fs(38) }}>
+
+      <div className="relative flex w-full flex-col items-center gap-4 @[460px]:gap-5">
+        <span className="hand -rotate-2 text-[26px] leading-none text-cloth-ink @[460px]:text-[32px]">
+          Аппликейшн татах
+        </span>
+        <h2
+          className="text-balance font-extrabold leading-[1.08] tracking-tight text-white"
+          style={{ fontSize: fs(38) }}
+        >
           <span className="pen-underline-light">Бизнесээ өнөөдрөөс цахимжуулаарай</span>
         </h2>
-        <p className="text-[15px] text-cloth-ink">Цахим дэвтэр аппликейшн татах холбоосууд</p>
-        <div className="mt-1 flex flex-wrap items-center justify-center gap-6">
-          <div className="flex flex-col gap-2.5">
+     
+
+        <div className="mt-2 flex w-full flex-col items-center gap-5 @[460px]:flex-row @[460px]:justify-center @[460px]:gap-7">
+          <div className="mx-auto flex w-full max-w-[260px] flex-col items-stretch gap-2.5">
             {stores.map((s) => {
               const cls =
-                "flex w-[200px] items-center gap-3 rounded-lg bg-surface px-4 py-2.5 text-left transition-transform hover:-translate-y-0.5";
+                "group mx-auto flex w-full items-center justify-center gap-3 rounded-xl border border-white/70 bg-surface px-4 py-3.5 text-left shadow-[0_3px_0_rgba(0,0,0,0.28)] transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0.5";
               const inner = (
                 <>
-                  <s.icon className="h-6 w-6 text-cloth-deep" />
-                  <div>
+                  <s.icon className="h-6 w-6 shrink-0 text-cloth-deep" />
+                  <div className="min-w-0 text-left">
                     <p className="text-[11px] leading-tight text-text-secondary">{s.sub}</p>
-                    <p className="text-sm font-bold leading-tight text-text">{s.name}</p>
+                    <p className="text-[15px] font-bold leading-tight text-text">{s.name}</p>
                   </div>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-cloth transition-transform duration-200 group-hover:translate-x-0.5" strokeWidth={2.5} />
                 </>
               );
               return s.href ? (
@@ -199,16 +249,17 @@ export function BackCover() {
               );
             })}
           </div>
-          <div className="relative flex rotate-3 flex-col items-center gap-1.5 bg-surface px-3.5 pb-2.5 pt-4 text-text shadow-[0_12px_18px_-10px_rgba(0,0,0,0.6)]">
+          {/* the QR is for scanning from a laptop; a phone already has the store buttons */}
+          <div className="relative hidden rotate-3 flex-col items-center gap-1.5 bg-surface px-4 pb-3 pt-5 text-text shadow-[0_12px_18px_-10px_rgba(0,0,0,0.6)] @[460px]:flex">
             <span className="tape -top-3 left-1/2 w-14 -translate-x-1/2 -rotate-3" />
-            <QrCode className="h-20 w-20" strokeWidth={1.25} />
-            <p className="text-[11px] font-semibold">QR кодоор татах</p>
+            <QrCode className="h-24 w-24" strokeWidth={1.25} />
+            <p className="text-[12px] font-semibold">QR кодоор татах</p>
           </div>
         </div>
       </div>
 
-      <div className="relative flex w-full flex-col gap-5 text-left text-cloth-ink">
-        <div className="grid grid-cols-3 gap-4">
+      <div className="relative flex w-full flex-col gap-4 text-left text-cloth-ink">
+        <div className="hidden grid-cols-3 gap-4 @[460px]:grid">
           {columns.map((c) => (
             <div key={c.title} className="flex flex-col gap-1.5">
               <p className="hand text-[22px] leading-none text-white">{c.title}</p>
@@ -220,13 +271,20 @@ export function BackCover() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col gap-1 border-t border-white/25 pt-4 text-[12px]">
+        <a
+          href="#"
+          className="hand mx-auto inline-flex items-center gap-1.5 text-[22px] leading-none text-white hover:underline"
+        >
+          <ArrowDown className="h-5 w-5 rotate-180" strokeWidth={2.25} />
+          Эхний хуудас руу буцах
+        </a>
+        <div className="flex flex-col gap-1.5 border-t border-white/25 pt-3 text-center text-[11.5px] leading-snug @[460px]:text-left @[460px]:text-[12px]">
           <span>
             {SITE.companyNameMn} · {SITE.email} · {SITE.phone}
           </span>
-          <span className="flex flex-wrap items-center justify-between gap-2">
+          <span className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 @[460px]:justify-between">
             <span>
-              © {new Date().getFullYear()} {SITE.companyNameMn}. Бүх эрх хуулиар хамгаалагдсан.
+              © {new Date().getFullYear()} {SITE.companyNameMn}
             </span>
             <span className="flex gap-4">
               <a href="/privacy" className="hover:text-white hover:underline">Нууцлалын бодлого</a>

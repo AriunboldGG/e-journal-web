@@ -10,6 +10,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BackCover, FrontCover, PAGES, PAGE_H, PAGE_W, Shell } from "./pages";
 
 const NAV_H = 68;
@@ -154,6 +155,14 @@ function BookInner({ layout }: { layout: Layout }) {
     window.scrollTo({ top: top - NAV_H + prog * dist, behavior: "smooth" });
   }, []);
 
+  const step = useCallback(
+    (dir: 1 | -1) => {
+      const n = Math.round(p.get() * g.phases);
+      scrollToProgress(Math.max(0, Math.min(g.phases, n + dir)) / g.phases);
+    },
+    [p, g.phases, scrollToProgress]
+  );
+
   const goToSpread = useCallback(
     (s: number | "end" | "start") => {
       if (s === "start") return window.scrollTo({ top: 0, behavior: "smooth" });
@@ -210,7 +219,7 @@ function BookInner({ layout }: { layout: Layout }) {
       <div
         ref={stageRef}
         className="book-stage sticky flex items-center justify-center overflow-hidden"
-        style={{ top: NAV_H, height: vh - NAV_H, paddingBottom: single ? 52 : 46 }}
+        style={{ top: NAV_H, height: vh - NAV_H, paddingBottom: 60 }}
       >
         <motion.div className="relative" style={{ width: bookW, height: g.ph, x }}>
           <span
@@ -222,7 +231,7 @@ function BookInner({ layout }: { layout: Layout }) {
           ))}
         </motion.div>
 
-        <Tracker p={p} active={active} visited={visited} onGo={goToSpread} single={single} phases={g.phases} />
+        <Tracker p={p} active={active} visited={visited} onGo={goToSpread} onStep={step} single={single} phases={g.phases} />
         <PenCursor stageRef={stageRef} />
       </div>
     </div>
@@ -475,6 +484,7 @@ function Tracker({
   active,
   visited,
   onGo,
+  onStep,
   single,
   phases,
 }: {
@@ -482,6 +492,7 @@ function Tracker({
   active: number;
   visited: Set<number>;
   onGo: (s: number) => void;
+  onStep: (dir: 1 | -1) => void;
   single: boolean;
   phases: number;
 }) {
@@ -495,7 +506,9 @@ function Tracker({
     active < 0 ? "Хавтас" : active >= SPREADS ? "Төгсгөл" : SPREAD_NAMES[active];
 
   return (
-    <div className="absolute bottom-2 left-1/2 z-40 w-[min(560px,84vw)] -translate-x-1/2 select-none">
+    <div className="absolute inset-x-0 bottom-1 z-40 flex select-none items-end justify-center gap-2 px-2">
+      <StepButton dir={-1} disabled={active < 0} onStep={onStep} />
+      <div className="w-[min(560px,calc(100vw-140px))]">
       <p className="hand mb-1 text-center text-[22px] leading-none text-cloth">{label}</p>
       <div className="relative h-8">
         <svg
@@ -549,6 +562,32 @@ function Tracker({
           <PenIcon className="h-7 w-7 -translate-y-1 drop-shadow-[0_2px_2px_rgba(8,30,20,0.3)]" />
         </motion.span>
       </div>
+      </div>
+      <StepButton dir={1} disabled={active >= SPREADS} onStep={onStep} />
     </div>
   );
 }
+
+function StepButton({
+  dir,
+  disabled,
+  onStep,
+}: {
+  dir: 1 | -1;
+  disabled: boolean;
+  onStep: (dir: 1 | -1) => void;
+}) {
+  const Icon = dir === 1 ? ChevronRight : ChevronLeft;
+  return (
+    <button
+      type="button"
+      onClick={() => onStep(dir)}
+      disabled={disabled}
+      aria-label={dir === 1 ? "Дараагийн хуудас" : "Өмнөх хуудас"}
+      className="mb-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-text/80 bg-surface text-text shadow-[0_3px_0_rgba(8,61,38,0.35)] transition-[transform,opacity,background-color] duration-150 hover:bg-cloth hover:text-white active:translate-y-0.5 disabled:pointer-events-none disabled:opacity-30"
+    >
+      <Icon className="h-5 w-5" strokeWidth={2.5} />
+    </button>
+  );
+}
+

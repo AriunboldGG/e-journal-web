@@ -262,20 +262,21 @@ html {
   letter-spacing: 0;
 }
 
-/* Pen underline: double rule, the way totals are underlined */
-.pen-underline {
-  text-decoration-line: underline;
-  text-decoration-style: double;
-  text-decoration-color: var(--color-pen);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 0.14em;
+/* Highlighter: a marker swipe across the lower half of the words */
+.pen-underline,
+.pen-underline-light {
+  --mark: rgba(34, 197, 94, 0.3);
+  background-image: linear-gradient(var(--mark), var(--mark));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 0.42em;
+  padding-inline: 0.1em;
+  margin-inline: -0.1em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .pen-underline-light {
-  text-decoration-line: underline;
-  text-decoration-style: double;
-  text-decoration-color: #ffd9cf;
-  text-decoration-thickness: 3px;
-  text-underline-offset: 0.14em;
+  --mark: rgba(134, 239, 172, 0.34);
 }
 
 /* Strike-through in red pen */
@@ -304,20 +305,25 @@ html {
   );
 }
 
-/* Pen underline: drawn in when the pen touches a heading, and it stays */
+/* Highlighter swipe: drawn across a heading when the pen touches it, and it stays */
 .ink {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q9 1 18 5 T36 4.5 T54 5 T72 4.5 T100 4' fill='none' stroke='%23c4352b' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  --mark: rgba(34, 197, 94, 0.3);
+  background-image: linear-gradient(var(--mark), var(--mark));
   background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 0% 8px;
-  padding-bottom: 5px;
+  background-position: 0 88%;
+  background-size: 0% 0.42em;
+  padding-inline: 0.1em;
+  margin-inline: -0.1em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   transition: background-size 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.cloth .ink {
+  --mark: rgba(134, 239, 172, 0.34);
+}
 .ink.inked,
 .ink:hover {
-  background-size: 100% 8px;
+  background-size: 100% 0.42em;
 }
 
 /* Book mode: the horizontal notebook replaces the long scroll on large screens */
