@@ -198,6 +198,15 @@ function BookInner({ layout }: { layout: Layout }) {
       style={{ height: outerH }}
       aria-label="Цахим дэвтэр"
     >
+      {/* One snap stop per page turn: a flick or a wheel notch lands on exactly the next page. */}
+      {Array.from({ length: g.phases + 1 }, (_, i) => (
+        <span
+          key={i}
+          aria-hidden="true"
+          className="book-snap pointer-events-none absolute left-0 h-px w-px"
+          style={{ top: Math.max(0, i * g.phaseVh * vh - NAV_H) }}
+        />
+      ))}
       <div
         ref={stageRef}
         className="book-stage sticky flex items-center justify-center overflow-hidden"

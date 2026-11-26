@@ -6,7 +6,7 @@ import { SITE } from "@/lib/constants";
 
 export const columns = [
   {
-    title: "Компани",
+    title: "Бидний тухай",
     links: [
       { label: "Бидний тухай", href: "#about" },
       { label: "Яагаад бид", href: "#why-us" },

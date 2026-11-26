@@ -327,6 +327,14 @@ html.book-mode .vertical-only {
 html:not(.book-mode) .book-only {
   display: none;
 }
+html.book-mode {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 0;
+}
+.book-snap {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
 .pen-active,
 .pen-active * {
   cursor: none !important;

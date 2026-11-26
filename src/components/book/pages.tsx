@@ -143,8 +143,11 @@ export function FrontCover() {
         <span className="block h-[7px] w-24 border-y-2 border-pen" aria-hidden="true" />
         <p className="text-balance text-[15px] leading-snug text-text-secondary">{SITE.tagline}</p>
       </div>
-      <p className="hand flex flex-col items-center text-[28px] leading-none text-cloth-ink">
-        Нээхийн тулд гүйлгэнэ үү
+      <p
+        className="hand flex w-[78%] flex-col items-center text-balance text-center leading-tight text-cloth-ink"
+        style={{ fontSize: "clamp(20px, 7.5cqw, 28px)" }}
+      >
+        Дэвтрээ дээш доош гүйлгэж нээж хаагаарай
         <ArrowDown className="mt-2 h-6 w-6 animate-bounce" strokeWidth={2.25} />
       </p>
     </div>
@@ -457,7 +460,7 @@ export const PAGES: { side: "L" | "R"; node: React.ReactNode }[] = [
     side: "R",
     node: (
       <div className="flex h-full flex-col">
-        <Head size={34} title="6 алхмаар эхлээрэй" />
+        <Head size={34} title="Ашиглах алхамууд" />
         <Ruled className="relative pl-[44px]">
           {steps.slice(0, 3).map((s, i) => (
             <Step key={s.title} s={s} i={i} />

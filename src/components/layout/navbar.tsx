@@ -8,7 +8,7 @@ import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#about", label: "Компани" },
+  { href: "#about", label: "Бидний тухай" },
   { href: "#features", label: "Боломжууд" },
   { href: "#how-it-works", label: "Хэрхэн ажилладаг" },
   { href: "#who", label: "Хэнд зориулагдсан" },
