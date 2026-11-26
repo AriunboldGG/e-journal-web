@@ -24,7 +24,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Цахим дэвтэр — Бизнесийн хамгийн ухаалаг дэвтэр",
+    default: "Цахим дэвтэр — Бизнесийн ухаалаг туслах",
     template: "%s | Цахим дэвтэр",
   },
   description:
